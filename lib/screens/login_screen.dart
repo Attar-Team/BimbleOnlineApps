@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:another_carousel_pro/another_carousel_pro.dart';
+import 'package:bumn_muda/screens/login2_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -205,7 +206,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(5),
-                            // onTap: dapatData, // Panggil method dapatData di sini
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const Login2Screen()),
+                              );
+                            }, // Panggil method dapatData di sini
                             child: const Center(                                                            
                                 child: Text(
                                 "Login dengan Email",
