@@ -255,7 +255,7 @@ class _Login2ScreenState extends State<Login2Screen> {
 
   Widget buildSignUpBtn() {
     return Container(
-      child: TextButton(
+      child: TextButton( 
         onPressed: () {
           Navigator.push(
             context,

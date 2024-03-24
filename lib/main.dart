@@ -1,4 +1,5 @@
 import 'package:bumn_muda/screens/home_screen.dart';
+import 'package:bumn_muda/screens/pembelianpage_screen.dart';
 import 'package:bumn_muda/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
