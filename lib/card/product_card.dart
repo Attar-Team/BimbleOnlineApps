@@ -15,8 +15,13 @@ class ProductCard extends StatelessWidget {
     color: Colors.black
   );
 
-  ProductCard({this.imageURL = "", this. name = "", this.description = "", this.price = ""});
-  
+  ProductCard({
+    required this.imageURL,
+    required this.name,
+    required this.description,
+    required this.price,
+  });
+    
   @override
   Widget build(BuildContext context) {
     return Stack(

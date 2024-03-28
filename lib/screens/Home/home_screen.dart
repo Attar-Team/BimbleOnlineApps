@@ -1,9 +1,13 @@
-import 'package:bumn_muda/screens/akunpage_screen.dart';
-import 'package:bumn_muda/screens/homepage_screen.dart';
-import 'package:bumn_muda/screens/pembelianpage_screen.dart';
+
+import 'package:bumn_muda/screens/Home/paket_screen.dart';
+import 'package:bumn_muda/screens/Home/pembelianpage_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+
+import 'akunpage_screen.dart';
+import 'homepage_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static List<Widget> _widgetOptions = <Widget>[
     HomePageScreen(),
+    PaketScreen(),
     PembelianPageScreen(),
     AkunPageScreen(),
   ];
@@ -24,6 +29,40 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onItemTapped(int index){
     setState(() {
       _selectedIndex = index;
+    });
+  }
+
+  @override
+  void onBackPressed() {
+    Navigator.pop(context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Tunggu widget terkait untuk dibuat
+    // dan dapatkan akses ke context di dalam didChangeDependencies()
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Akses context dan lakukan inisialisasi Firebase di sini
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('User is currently signed out!'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Signed by ${user.email}'),
+          ),
+        );
+      }
     });
   }
 
@@ -72,13 +111,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     onPressed: () => _onItemTapped(0),
               ),
               GButton(
+                icon: LineIcons.book,
+                text: 'Paket',
+                textStyle: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white),
+                    onPressed: () => _onItemTapped(1)
+              ),
+              GButton(
                 icon: LineIcons.shoppingCart,
                 text: 'Pembelian',
                 textStyle: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
-                    onPressed: () => _onItemTapped(1)
+                    onPressed: () => _onItemTapped(2)
               ),
               GButton(
                 icon: LineIcons.user,
@@ -87,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
-                    onPressed: () => _onItemTapped(2)
+                    onPressed: () => _onItemTapped(3)
               ),
             ],
           ),

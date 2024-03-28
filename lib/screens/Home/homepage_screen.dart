@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:bumn_muda/card/product_card.dart';
+import 'package:bumn_muda/card/product.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
@@ -37,7 +38,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 390,
+                  height: 350,
                   child: Stack(
                     children: [
                       Container(
@@ -56,30 +57,34 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       Container(
                         margin:
-                            EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+                            EdgeInsets.symmetric(horizontal: 30),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(height: 60,),
                             Text(
                               'Hi, Asyam',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w700,
-                                fontSize: 25,
+                                fontSize: 22,
                                 color: Colors.white,
                               ),
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                             Text(
                               'Mulai belajar dan berlangganan untuk kesuksesanmu',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.normal,
-                                fontSize: 14,
+                                fontSize: 12,
                                 color: Colors.white,
                               ),
                             ),
                             const SizedBox(
-                              height: 40,
+                              height: 15,
                             ),
                             Container(
                               padding:
@@ -131,7 +136,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         color: Colors.black,
-                                        fontSize: 17,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -141,7 +146,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         Expanded(
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
-                                                vertical: 10),
+                                                vertical: 5),
                                             decoration: BoxDecoration(
                                               color: Color(0xff2E3D64),
                                               borderRadius:
@@ -157,6 +162,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                     fontFamily: 'Poppins',
                                                     color: Colors.white,
                                                     fontWeight: FontWeight.bold,
+                                                    fontSize: 13
                                                   ),
                                                 ),
                                                 Icon(Icons.arrow_forward,
@@ -355,14 +361,24 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   height: 20,
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30),
-                  child: ProductCard(
-                    imageURL: "images/gambarpaket.png",
-                    name: "Paket Try Out BUMN",
-                    description:
-                        "TKD, Ujian Simulasi, Tes Logika, Paket Soal Lengkap",
-                    price: "Rp50.000,00",
-                  ),
+                  margin: EdgeInsets.only(left: 20),
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: Row(
+                        children: products.map((product) {
+                          return Padding(
+                            padding: const EdgeInsets.all(
+                                8.0), // Padding antara setiap card
+                            child: ProductCard(
+                              imageURL: product.imageURL,
+                              name: product.title,
+                              description: product.description,
+                              price: product.price,
+                            ),
+                          );
+                        }).toList(),
+                      )),
                 ),
                 SizedBox(
                   height: 20,
@@ -381,7 +397,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     return GestureDetector(
       onTap: () => handleContainerTap(index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected ? Color(0xff0093AC) : Colors.white,
           borderRadius: BorderRadius.circular(13),

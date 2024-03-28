@@ -1,6 +1,9 @@
-import 'package:bumn_muda/screens/login_screen.dart';
+import 'package:bumn_muda/screens/Auth/login_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../Home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,9 +20,20 @@ class _SplashScreenState extends State<SplashScreen>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     Future.delayed(Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => const LoginScreen(),
-      ));
+      // Tambahkan pengaturan aliran login di initState
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+        if (user != null) {
+          // Jika pengguna telah login, arahkan ke layar beranda atau layar utama
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) =>   HomeScreen(), // Ganti HomeScreen dengan nama layar beranda Anda
+          ));
+        } else {
+          // Jika pengguna belum login, arahkan ke layar login
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => const LoginScreen(),
+          ));
+        }
+      });
     });
   }
 
@@ -30,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
