@@ -1,3 +1,4 @@
+import 'package:bumn_muda/screens/Paket/detail_paket.dart';
 import 'package:bumn_muda/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,13 +99,21 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
               ),
               SizedBox(height: 20,),
               Container(
-                    margin: EdgeInsets.only(left: 20),
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        child: Row(
-                          children: products.map((product) {
-                            return Padding(
+                  margin: EdgeInsets.only(left: 20),
+                  child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: Row(
+                        children: products.map((product) {
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(builder: (context) => DetailPaket()
+                                )
+                              );
+                            },
+                            child: Padding(
                               padding: const EdgeInsets.all(
                                   8.0), // Padding antara setiap card
                               child: ProductCard(
@@ -113,10 +122,11 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                                 description: product.description,
                                 price: product.price,
                               ),
-                            );
-                          }).toList(),
-                        )),
-                  ),
+                            ),
+                          );
+                        }).toList(),
+                      )),
+                ),
               SizedBox(height: 20,),
               Container(
                 margin: EdgeInsets.only(left: 20),

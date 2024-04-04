@@ -1,6 +1,9 @@
-import 'package:bumn_muda/screens/simulasi_screen.dart';
+import 'package:bumn_muda/screens/Course/course_screen.dart';
+import 'package:bumn_muda/screens/Home/paket_screen.dart';
+import 'package:bumn_muda/screens/Paket/detail_paket.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:bumn_muda/card/product_card.dart';
 import 'package:bumn_muda/card/product.dart';
@@ -320,7 +323,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 30),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -331,13 +334,20 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             fontWeight: FontWeight.bold,
                             fontSize: 15),
                       ),
-                      Text(
-                        'See All >',
-                        style: TextStyle(
-                          color: Color(0xff0093AC),
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context, MaterialPageRoute(
+                              builder: (context) => CourseScreen()));
+                        },
+                        child: Text(
+                          'See All >',
+                          style: TextStyle(
+                            color: Color(0xff0093AC),
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
                         ),
                       )
                     ],
@@ -367,14 +377,23 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       physics: BouncingScrollPhysics(),
                       child: Row(
                         children: products.map((product) {
-                          return Padding(
-                            padding: const EdgeInsets.all(
-                                8.0), // Padding antara setiap card
-                            child: ProductCard(
-                              imageURL: product.imageURL,
-                              name: product.title,
-                              description: product.description,
-                              price: product.price,
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context, 
+                                MaterialPageRoute(builder: (context) => DetailPaket()
+                                )
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(
+                                  8.0), // Padding antara setiap card
+                              child: ProductCard(
+                                imageURL: product.imageURL,
+                                name: product.title,
+                                description: product.description,
+                                price: product.price,
+                              ),
                             ),
                           );
                         }).toList(),

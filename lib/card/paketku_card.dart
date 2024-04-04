@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 const Color firstColor = Color(0xff2E3D64);
 const Color secondColor = Color(0xff0093AC);
 
-class ProductCard extends StatelessWidget {
+class PaketkuCard extends StatelessWidget {
   final String imageURL;
   final String name;
   final String description;
-  final String price;
+  final String progress;
   final TextStyle textStyle = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 16,
@@ -15,11 +15,11 @@ class ProductCard extends StatelessWidget {
     color: Colors.black
   );
 
-  ProductCard({
+  PaketkuCard({
     required this.imageURL,
     required this.name,
     required this.description,
-    required this.price,
+    required this.progress,
   });
     
   @override
@@ -29,7 +29,7 @@ class ProductCard extends StatelessWidget {
         //notifikasi
         Container(
           width: 170,
-          height: 260,
+          height: 270,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(5),
@@ -77,23 +77,24 @@ class ProductCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.all(5),
                     child: Text(
-                      price,
+                      'Progress : $progress',
                       style: 
-                        textStyle.copyWith(color: firstColor),),),
+                        textStyle.copyWith(color: firstColor, fontSize: 12),),
+                  ),
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(right: 5, left: 5, bottom: 5),
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
                     decoration: BoxDecoration(
                       color: firstColor,
                       borderRadius: BorderRadius.circular(5)
                     ),
                     child: Center(
                       child: Text(
-                        'Beli',
+                        'Lanjutkan Belajar',
                         style: TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: Colors.white
                         ),

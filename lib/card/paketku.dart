@@ -1,48 +1,48 @@
 import 'package:flutter/material.dart';
 
-class Product{
+class Paketku{
   final String imageURL;
   final String title;
   final String description;
-  final String price;
+  final String progress;
 
-  Product({
+  Paketku({
     required this.imageURL,
     required this.title,
     required this.description,
-    required this.price,
+    required this.progress,
   });
 }
 
-final List<Product> products = [
-      Product(
+final List<Paketku> products = [
+      Paketku(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 1",
         description: "Deskripsi Produk 1",
-        price: "Rp 100.000",
+        progress: "80%",
       ),
-      Product(
+      Paketku(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 2",
         description: "Deskripsi Produk 2",
-        price: "Rp 200.000",
+        progress: "40%",
       ),
-      Product(
+      Paketku(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 3",
         description: "Deskripsi Produk 3",
-        price: "Rp 300.000",
+        progress: "50%",
       ),
-      Product(
+      Paketku(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 4",
         description: "Deskripsi Produk 4",
-        price: "Rp 400.000",
+        progress: "20%",
       ),
-      Product(
+      Paketku(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 5",
         description: "Deskripsi Produk 5",
-        price: "Rp 500.000",
+        progress: "70%",
       ),
     ];

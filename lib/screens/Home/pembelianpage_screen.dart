@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../Pembelian/ongoing_screen.dart';
@@ -13,7 +12,6 @@ class PembelianPageScreen extends StatefulWidget {
 }
 
 class _PembelianPageScreenState extends State<PembelianPageScreen> {
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -30,59 +28,58 @@ class _PembelianPageScreenState extends State<PembelianPageScreen> {
                   Text(
                     'Histori Pemesanan',
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 25,
-                      color: Colors.black
-                    ),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25,
+                        color: Colors.black),
                   ),
                   Text(
                     'Cek pemesanan dan proses course atau try out yang sudah kamu beli',
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                      color: Colors.black
-                    ),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                        color: Colors.black),
                   )
                 ],
               ),
             ),
             bottom: const TabBar(
-              unselectedLabelColor: Colors.grey,
-              labelColor: Color(0xff2E3D64),
-              tabs: [
-                Tab(
-                  child: Text(
-                    'Proses',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                unselectedLabelColor: Colors.grey,
+                labelColor: Color(0xff2E3D64),
+                indicatorColor: Color(0xff2E3D64),
+                tabs: [
+                  Tab(
+                    child: Text(
+                      'Proses',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-                Tab(
-                  child: Text(
-                    'OnGoing',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                  Tab(
+                    child: Text(
+                      'OnGoing',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                ),
-                Tab(
-                  child: Text(
-                    'Selesai',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                  Tab(
+                    child: Text(
+                      'Selesai',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                )
-              ]),
+                  )
+                ]),
           ),
           body: const TabBarView(
             children: [

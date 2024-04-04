@@ -119,7 +119,26 @@ flutter:
         - asset: assets/font/Poppins-SemiBoldItalic.ttf
         - asset: assets/font/Poppins-Thin.ttf
         - asset: assets/font/Poppins-ThinItalic.ttf
-
+    - family: Urbanist
+      fonts:
+        - asset: assets/font/Urbanist-Black.ttf
+        - asset: assets/font/Urbanist-BlackItalic.ttf
+        - asset: assets/font/Urbanist-Bold.ttf
+        - asset: assets/font/Urbanist-BoldItalic.ttf
+        - asset: assets/font/Urbanist-ExtraBold.ttf
+        - asset: assets/font/Urbanist-ExtraBoldItalic.ttf
+        - asset: assets/font/Urbanist-ExtraLight.ttf
+        - asset: assets/font/Urbanist-ExtraLightItalic.ttf
+        - asset: assets/font/Urbanist-Italic.ttf
+        - asset: assets/font/Urbanist-Light.ttf
+        - asset: assets/font/Urbanist-LightItalic.ttf
+        - asset: assets/font/Urbanist-Medium.ttf
+        - asset: assets/font/Urbanist-MediumItalic.ttf
+        - asset: assets/font/Urbanist-Regular.ttf
+        - asset: assets/font/Urbanist-SemiBold.ttf
+        - asset: assets/font/Urbanist-SemiBoldItalic.ttf
+        - asset: assets/font/Urbanist-Thin.ttf
+        - asset: assets/font/Urbanist-ThinItalic.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
