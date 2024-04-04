@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class DetailPaket extends StatefulWidget {
-  const DetailPaket({super.key});
+  final String productName;
+  const DetailPaket({Key? key, required this.productName});
 
   @override
   State<DetailPaket> createState() => _DetailPaketState();
@@ -66,7 +67,7 @@ class _DetailPaketState extends State<DetailPaket> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Paket Courses BUMN',
+                    widget.productName,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 22,

@@ -1,3 +1,4 @@
+import 'package:bumn_muda/screens/Paketku/detail_paketku.dart';
 import 'package:flutter/material.dart';
 import 'package:bumn_muda/card/paketku_card.dart';
 import 'package:bumn_muda/card/paketku.dart';
@@ -64,11 +65,21 @@ class _PaketScreenState extends State<PaketScreen> {
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: PaketkuCard(
-                              imageURL: products[index * 2].imageURL,
-                              name: products[index * 2].title,
-                              description: products[index * 2].description,
-                              progress: products[index * 2].progress,
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPaketku(productName: products[index * 2].title,),
+                                  ),
+                                );
+                              },
+                              child: PaketkuCard(
+                                imageURL: products[index * 2].imageURL,
+                                name: products[index * 2].title,
+                                description: products[index * 2].description,
+                                progress: products[index * 2].progress,
+                              ),
                             ),
                           ),
                         ),
@@ -76,11 +87,21 @@ class _PaketScreenState extends State<PaketScreen> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: PaketkuCard(
-                                imageURL: products[index * 2 + 1].imageURL,
-                                name: products[index * 2 + 1].title,
-                                description: products[index * 2 + 1].description,
-                                progress: products[index * 2 + 1].progress,
+                              child: GestureDetector(
+                                onTap: (){
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPaketku(productName: products[index * 2 + 1].title),
+                                  ),
+                                );
+                                },
+                                child: PaketkuCard(
+                                  imageURL: products[index * 2 + 1].imageURL,
+                                  name: products[index * 2 + 1].title,
+                                  description: products[index * 2 + 1].description,
+                                  progress: products[index * 2 + 1].progress,
+                                ),
                               ),
                             ),
                           ),

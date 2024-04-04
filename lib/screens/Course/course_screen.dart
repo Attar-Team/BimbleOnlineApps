@@ -229,7 +229,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailPaket(),
+                                    builder: (context) => DetailPaket(productName: products[index * 2].title,),
                                   ),
                                 );
                               },
@@ -252,7 +252,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DetailPaket(),
+                                      builder: (context) => DetailPaket(productName: products[index * 2 + 1].title,),
                                     ),
                                   );
                                 },

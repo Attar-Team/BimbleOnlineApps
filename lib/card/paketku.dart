@@ -34,7 +34,7 @@ final List<Paketku> products = [
         progress: "50%",
       ),
       Paketku(
-        imageURL: "images/gambarpaket.png",
+      imageURL: "images/gambarpaket.png",
         title: "Nama Produk 4",
         description: "Deskripsi Produk 4",
         progress: "20%",

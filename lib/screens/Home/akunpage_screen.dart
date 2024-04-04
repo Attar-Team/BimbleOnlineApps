@@ -109,7 +109,7 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                             onTap: (){
                               Navigator.push(
                                 context, 
-                                MaterialPageRoute(builder: (context) => DetailPaket()
+                                MaterialPageRoute(builder: (context) => DetailPaket(productName: product.title,)
                                 )
                               );
                             },

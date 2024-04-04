@@ -84,7 +84,7 @@ class PaketkuCard extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(right: 5, left: 5, bottom: 5),
-                    padding: EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     decoration: BoxDecoration(
                       color: firstColor,
                       borderRadius: BorderRadius.circular(5)

@@ -16,6 +16,7 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
+  ScrollController _scrollController = ScrollController();
   int selectedIndex = 0;
 
   void handleContainerTap(int index) {
@@ -147,30 +148,40 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     Row(
                                       children: [
                                         Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 5),
-                                            decoration: BoxDecoration(
-                                              color: Color(0xff2E3D64),
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                            child: const Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  'Beli Paket',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 13
+                                          child: GestureDetector(
+                                            onTap: (){
+                                              setState(() {
+                                                _scrollController.animateTo(
+                                                _scrollController.position.maxScrollExtent,
+                                                duration: Duration(milliseconds: 500),
+                                                curve: Curves.easeInOut);
+                                              });
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 5),
+                                              decoration: BoxDecoration(
+                                                color: Color(0xff2E3D64),
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                              child: const Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'Beli Paket',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 13
+                                                    ),
                                                   ),
-                                                ),
-                                                Icon(Icons.arrow_forward,
-                                                    color: Colors.white),
-                                              ],
+                                                  Icon(Icons.arrow_forward,
+                                                      color: Colors.white),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -373,6 +384,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 Container(
                   margin: EdgeInsets.only(left: 20),
                   child: SingleChildScrollView(
+                      controller: _scrollController,
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
                       child: Row(
@@ -381,7 +393,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             onTap: (){
                               Navigator.push(
                                 context, 
-                                MaterialPageRoute(builder: (context) => DetailPaket()
+                                MaterialPageRoute(builder: (context) => DetailPaket(productName: product.title,)
                                 )
                               );
                             },
