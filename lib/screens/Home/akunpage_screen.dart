@@ -63,7 +63,7 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                         ),
                         SizedBox(height: 15,),
                         Text(
-                          'Rizky Asyam',
+                          'Rahmat Kopling',
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 17,

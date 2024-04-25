@@ -45,6 +45,13 @@ dependencies:
   firebase_database: ^10.4.10
   google_sign_in: ^6.2.1
   percent_indicator: ^3.4.0
+  webview_flutter: ^4.7.0
+  midtrans_sdk: ^0.3.4
+  flutter_dotenv: ^5.1.0
+  http: ^0.13.0
+  dartz: ^0.10.1
+  equatable: ^2.0.5
+  fluttertoast: ^8.0.8
 
 
 dev_dependencies:
@@ -87,6 +94,7 @@ flutter:
     - images/icons_akun4.png    
     - images/icons_akun5.png
     - images/gambarpaket.png
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
