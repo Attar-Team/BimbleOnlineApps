@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -10,17 +11,21 @@ class ProgressCard extends StatelessWidget {
   final String imageURL;
   final String judul;
   final String progress;
+  final double percent;
   final TextStyle textStyle = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 16,
     color: firstColor,
     fontWeight: FontWeight.bold
   );
+  final VoidCallback onPressed;
 
   ProgressCard({
     required this.imageURL,
     required this.judul,
-    required this.progress
+    required this.progress,
+    required this.percent,
+    required this.onPressed
   });
 
   @override
@@ -41,16 +46,19 @@ class ProgressCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            height: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
+          GestureDetector(
+            onTap: onPressed,
+            child: Container(
+              width: double.infinity,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                image: DecorationImage(
+                  image: AssetImage(imageURL), fit: BoxFit.cover)
               ),
-              image: DecorationImage(
-                image: AssetImage(imageURL), fit: BoxFit.cover)
             ),
           ),
           Container(
@@ -77,7 +85,7 @@ class ProgressCard extends StatelessWidget {
                 SizedBox(height: 10,),
                 LinearPercentIndicator(
                   lineHeight: 10,
-                  percent: 0.7,
+                  percent: percent,
                   progressColor: firstColor,
                   backgroundColor: thirdColor,
                 ),

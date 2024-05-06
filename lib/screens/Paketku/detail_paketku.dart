@@ -1,5 +1,9 @@
 import 'package:bumn_muda/card/progress.dart';
 import 'package:bumn_muda/card/progress_card.dart';
+import 'package:bumn_muda/screens/Paketku/corevalue_screen.dart';
+import 'package:bumn_muda/screens/Paketku/freebank_screen.dart';
+import 'package:bumn_muda/screens/Paketku/tryout_screen.dart';
+import 'package:bumn_muda/screens/Paketku/videopembelajaran.dart';
 import 'package:flutter/material.dart';
 
 class DetailPaketku extends StatefulWidget {
@@ -25,60 +29,83 @@ class _DetailPaketkuState extends State<DetailPaketku> {
           height: 50, // Sesuaikan ukuran gambar
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20,),
-            Text(
-              widget.productName,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff2E3D64)
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20,),
+              Text(
+                widget.productName,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff2E3D64)
+                ),
               ),
-            ),
-            SizedBox(height: 5,),
-            Text(
-              'Ayo segera pelajari apa aja sih yang dipersiapkan agar bisa jadi BUMN MUDA',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.grey
+              SizedBox(height: 5,),
+              Text(
+                'Ayo segera pelajari apa aja sih yang dipersiapkan agar bisa jadi BUMN MUDA',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey
+                ),
               ),
-            ),
-            SizedBox(height: 25,),
-            Text(
-              'Materi',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff2E3D64)
+              SizedBox(height: 25,),
+              Text(
+                'Materi',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff2E3D64)
+                ),
               ),
-            ),
-            Container(
-              transform: Matrix4.translationValues(0.0, -30.0, 0.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: ProgressCard(
-                      imageURL: products[index].imageURL,
-                      judul: products[index].judul,
-                      progress: products[index].progress,
-                    ),
-                  );
-                },
+              Container(
+                transform: Matrix4.translationValues(0.0, -30.0, 0.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: ProgressCard(
+                        imageURL: products[index].imageURL,
+                        judul: products[index].judul,
+                        progress: products[index].progress,
+                        percent: products[index].percent,
+                        onPressed: (){
+                          if (products[index].judul == 'Video Pembelajaran') {
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => VideoPembelajaran()));
+                          } else if (products[index].judul == 'Try Out / Latihan Soal'){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TryOutScreen()));
+                          } else if (products[index].judul == 'Core Value BUMN'){
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => CoreValueScreen()));
+                          } else if (products[index].judul == 'Free Bank Soal'){
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(builder: (context) => FreeBankScreen()));
+                          }
+                        },
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
