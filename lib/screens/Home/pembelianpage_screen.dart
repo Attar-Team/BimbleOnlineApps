@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../Pembelian/ongoing_screen.dart';
-import '../Pembelian/proses_screen.dart';
-import '../Pembelian/selesai_screen.dart';
+import '../Histori Pemesanan/selesai_screen.dart';
+import '../Histori Pemesanan/activeorders_screen.dart';
 
 class PembelianPageScreen extends StatefulWidget {
   const PembelianPageScreen({super.key});
@@ -15,24 +14,41 @@ class _PembelianPageScreenState extends State<PembelianPageScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Container(
         margin: EdgeInsets.only(top: 20),
         child: Scaffold(
           appBar: AppBar(
             flexibleSpace: Container(
               margin: const EdgeInsets.only(left: 20, top: 20),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Histori Pemesanan',
-                    style: TextStyle(
+                  RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                        color: Colors.black),
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff2E3D64),
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Histori ',
+                          style: TextStyle(
+                            // Gaya teks untuk "Video"
+                            fontWeight: FontWeight.w500,
+                            // Atur gaya teks sesuai keinginan Anda
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'Pemesanan',
+                          // Gaya teks untuk "Pembelajaran"
+                        ),
+                      ],
+                    ),
                   ),
+                  SizedBox(height: 5,),
                   Text(
                     'Cek pemesanan dan proses course atau try out yang sudah kamu beli',
                     style: TextStyle(
@@ -40,7 +56,7 @@ class _PembelianPageScreenState extends State<PembelianPageScreen> {
                         fontWeight: FontWeight.w500,
                         fontSize: 12,
                         color: Colors.black),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -51,17 +67,7 @@ class _PembelianPageScreenState extends State<PembelianPageScreen> {
                 tabs: [
                   Tab(
                     child: Text(
-                      'Proses',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'OnGoing',
+                      'Active Orders',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 14,
@@ -78,14 +84,13 @@ class _PembelianPageScreenState extends State<PembelianPageScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  )
+                  ),
                 ]),
           ),
           body: const TabBarView(
             children: [
-              ProsesPembelian(),
-              OnGoingScreen(),
-              SelesaiPembelian(),
+              ActiveOrders_Screen(),
+              SelesaiScreen(),
             ],
           ),
         ),
