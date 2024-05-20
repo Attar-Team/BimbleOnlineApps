@@ -3,15 +3,21 @@ import 'package:bumn_muda/screens/Paket/lessons.screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../data/ujian.dart';
+
 class DetailPaket extends StatefulWidget {
   final String productName;
-  const DetailPaket({Key? key, required this.productName});
+  final String productType;
+  final String productDesc;
+  final List<Exam> listExam;
+  const DetailPaket({Key? key, required this.productName, required this.productType, required this.productDesc, required this.listExam}) : super(key: key);
 
   @override
   State<DetailPaket> createState() => _DetailPaketState();
 }
 
 class _DetailPaketState extends State<DetailPaket> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,7 +153,10 @@ class _DetailPaketState extends State<DetailPaket> {
                           height: 380, // or adjust according to your content
                           child: TabBarView(
                             children: [
-                              AboutScreen(),
+                              AboutScreen(
+                                productDescription: widget.productDesc,
+                                listExam: widget.listExam,
+                              ),
                               LessonsScreen(),
                             ],
                           ),

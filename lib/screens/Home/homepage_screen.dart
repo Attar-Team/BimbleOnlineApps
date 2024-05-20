@@ -3,10 +3,17 @@ import 'package:bumn_muda/screens/Home/paket_screen.dart';
 import 'package:bumn_muda/screens/Paket/detail_paket.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:bumn_muda/card/product_card.dart';
 import 'package:bumn_muda/card/product.dart';
+
+import '../../data/paket.dart';
+import '../../data/response/paket_response.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key});
@@ -18,12 +25,72 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   ScrollController _scrollController = ScrollController();
   int selectedIndex = 0;
+  late Future<ApiResponse> futureApiResponse;
+  List<Package> packages = [];
 
   void handleContainerTap(int index) {
     setState(() {
       selectedIndex = index;
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    // Menunda eksekusi fetchPackages hingga frame pertama selesai dirender
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      fetchPackages(context).then((apiResponse) {
+        setState(() {
+          packages = apiResponse.data;
+        });
+      }).catchError((error) {
+        // Tangani kesalahan jika perlu
+        print('Error fetching packages: $error');
+      });
+    });
+  }
+
+  Future<ApiResponse> fetchPackages(BuildContext context) async {
+    showLoadingDialog(context);
+    try {
+      final response = await http.get(Uri.parse('http://bimbel.adzazarif.my.id/api/package'));
+
+      if (response.statusCode == 200) {
+        Navigator.of(context).pop(); // Close the loading dialog
+        return ApiResponse.fromJson(json.decode(response.body));
+      } else {
+        Navigator.of(context).pop(); // Close the loading dialog
+        throw Exception('Failed to load packages');
+      }
+    } catch (e) {
+      Navigator.of(context).pop(); // Close the loading dialog
+      throw e; // Rethrow the exception
+    }
+  }
+
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 16),
+                Text('Loading...'),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 
   final myItems = [
     Image.asset('images/poster1.png'),
@@ -42,159 +109,162 @@ class _HomePageScreenState extends State<HomePageScreen> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 350,
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 300,
-                        decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.centerRight,
-                              end: Alignment.centerLeft,
-                              colors: [Color(0xff2E3D64), Color(0xff0093AC)],
-                            ),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(100),
-                              bottomRight: Radius.circular(100),
-                            )),
-                      ),
-                      Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 30),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 60,),
-                            Text(
-                              'Hi, Asyam',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 22,
-                                color: Colors.white,
+                  height: 370,
+                  child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 300,
+                          decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.centerRight,
+                                end: Alignment.centerLeft,
+                                colors: [Color(0xff2E3D64), Color(0xff0093AC)],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Mulai belajar dan berlangganan untuk kesuksesanmu',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: const Row(children: [
-                                Icon(Icons.search),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                    child: TextField(
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins', fontSize: 14),
-                                  decoration: InputDecoration(
-                                      hintText:
-                                          'What skills are you looking to improve',
-                                      contentPadding:
-                                          EdgeInsets.only(bottom: 5, left: 10),
-                                      hintStyle: TextStyle(
-                                          fontFamily: 'Poppins', fontSize: 12),
-                                      border: InputBorder.none),
-                                ))
-                              ]),
-                            ),
-                            SizedBox(height: 20),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(100),
+                                bottomRight: Radius.circular(100),
+                              )),
+                        ),
+                        Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 60,),
+                              Text(
+                                'Hi, Asyam',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 22,
                                   color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 3,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 3),
-                                    )
-                                  ]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '100+ Kursus ditambahkan setiap harinya, Explore sekarang juga',
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'Mulai belajar dan berlangganan untuk kesuksesanmu',
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Row(children: [
+                                  Icon(Icons.search),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                      child: TextField(
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins', fontSize: 14),
+                                    decoration: InputDecoration(
+                                        hintText:
+                                            'What skills are you looking to improve',
+                                        contentPadding:
+                                            EdgeInsets.only(bottom: 5, left: 10),
+                                        hintStyle: TextStyle(
+                                            fontFamily: 'Poppins', fontSize: 12),
+                                        border: InputBorder.none),
+                                  ))
+                                ]),
+                              ),
+                              SizedBox(height: 20),
+                              Container(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 3,
+                                        blurRadius: 4,
+                                        offset: Offset(0, 3),
+                                      )
+                                    ]),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '100+ Kursus ditambahkan setiap harinya, Explore sekarang juga',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 20),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: (){
-                                              setState(() {
-                                                _scrollController.animateTo(
-                                                _scrollController.position.maxScrollExtent,
-                                                duration: Duration(milliseconds: 500),
-                                                curve: Curves.easeInOut);
-                                              });
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  vertical: 5),
-                                              decoration: BoxDecoration(
-                                                color: Color(0xff2E3D64),
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                              ),
-                                              child: const Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    'Beli Paket',
-                                                    style: TextStyle(
-                                                      fontFamily: 'Poppins',
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontSize: 13
+                                      SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                setState(() {
+                                                  _scrollController.animateTo(
+                                                  _scrollController.position.maxScrollExtent,
+                                                  duration: Duration(milliseconds: 500),
+                                                  curve: Curves.easeInOut);
+                                                });
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 5),
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xff2E3D64),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      'Beli Paket',
+                                                      style: TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 13
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Icon(Icons.arrow_forward,
-                                                      color: Colors.white),
-                                                ],
+                                                    Icon(Icons.arrow_forward,
+                                                        color: Colors.white),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -384,32 +454,36 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 Container(
                   margin: EdgeInsets.only(left: 20),
                   child: SingleChildScrollView(
-                      controller: _scrollController,
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      child: Row(
-                        children: products.map((product) {
-                          return GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                context, 
-                                MaterialPageRoute(builder: (context) => DetailPaket(productName: product.title,)
-                                )
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(
-                                  8.0), // Padding antara setiap card
-                              child: ProductCard(
-                                imageURL: product.imageURL,
-                                name: product.title,
-                                description: product.description,
-                                price: product.price,
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    child: Row(
+                      children: packages.map((package) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailPaket(
+                                  productName: package.name,
+                                  productType: package.type, productDesc: package.description, listExam: package.listPackage,
+                                ),
                               ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0), // Padding antara setiap card
+                            child: ProductCard(
+                              imageURL: 'http://127.0.0.1:8000/${package.photo}',
+                              name: package.name,
+                              description: package.description,
+                              price: package.price.toString(),
                             ),
-                          );
-                        }).toList(),
-                      )),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 20,

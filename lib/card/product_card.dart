@@ -66,7 +66,11 @@ class ProductCard extends StatelessWidget {
                     child: Text(
                       description, 
                       style: 
-                        textStyle.copyWith(fontSize: 10, fontWeight: FontWeight.w500),),
+                        textStyle.copyWith(fontSize: 10, fontWeight: FontWeight.w500
+                        ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis
+                    ),
                   ),
                   
                 ],

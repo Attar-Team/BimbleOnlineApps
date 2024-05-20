@@ -5,7 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+import '../../data/response/paket_response.dart';
 import 'akunpage_screen.dart';
 import 'homepage_screen.dart';
 
@@ -66,6 +69,17 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<ApiResponse> fetchPackages() async {
+    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/packages'));
+
+    if (response.statusCode == 200) {
+      return ApiResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load packages');
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ]
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
           child: GNav(
             backgroundColor: Colors.transparent,
             color: Colors.black,

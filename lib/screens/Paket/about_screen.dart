@@ -2,11 +2,14 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:midtrans_sdk/midtrans_sdk.dart';
+import '../../data/ujian.dart';
 import '../../services/token_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dot_env;
 
 class AboutScreen extends StatefulWidget {
-  const AboutScreen({super.key});
+  final String productDescription;
+  final List<Exam> listExam;
+  const AboutScreen({super.key, required this.productDescription, required this.listExam});
 
   @override
   State<AboutScreen> createState() => _AboutScreenState();
@@ -38,9 +41,14 @@ class _AboutScreenState extends State<AboutScreen> {
       skipCustomerDetailsPages: true,
     );
     _midtrans!.setTransactionFinishedCallback((result) {
-      if (result.transactionStatus == Transaction.success(result.transactionId)) {
+      print("TRANSACTION STATUS: ${result}");
+      print("TRANSACTION STATUS: ${result.transactionStatus}");
+      print("TRANSACTION STATUS: ${result.transactionStatus}");
+      print("TRANSACTION STATUS: ${result.transactionStatus}");
+
+      if (result.transactionStatus == TransactionResultStatus.pending) {
         _showToast('Pembayaran Berhasil', false);
-      } else if (result.transactionStatus == Transaction.abort()) {
+      } else if (result.isTransactionCanceled) {
         _showToast('Pembayaran Gagal', true);
       }
     });
@@ -65,6 +73,7 @@ class _AboutScreenState extends State<AboutScreen> {
         child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
                 'Mentor',
@@ -149,7 +158,7 @@ class _AboutScreenState extends State<AboutScreen> {
               SizedBox(height: 20,),
               GestureDetector(
                 onTap: () async {
-              final result = await TokenService().getToken("Paket 1", 1000, 1);
+              final result = await TokenService().getToken("Paket 1", 100000, 1);
 
               if (result.isRight()) {
               String? token = result.fold((l) => null, (r) => r.token);
@@ -163,6 +172,7 @@ class _AboutScreenState extends State<AboutScreen> {
               token: token,
               );
               } else {
+                print("RESULT" + result.toString());
               _showToast('Transaction Failed', true);
               }
               },
@@ -175,7 +185,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                   child: const Center(
                     child: Text(
-                      'Daftar Kursus - Rp500.000',
+                      'Daftar Kursus - Rp100.000',
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
