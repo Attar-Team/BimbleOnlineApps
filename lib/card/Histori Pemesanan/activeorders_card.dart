@@ -1,4 +1,8 @@
+import 'package:bumn_muda/screens/Histori%20Pemesanan/detailorders_screen.dart';
+import 'package:bumn_muda/screens/Paketku/detail_paketku.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ActiveOrdersCard extends StatelessWidget {
   final String judul;
@@ -6,12 +10,11 @@ class ActiveOrdersCard extends StatelessWidget {
   final DateTime tanggal;
   final String imageURL;
 
-  ActiveOrdersCard({
-    required this.judul,
-    required this.deskripsi,
-    required this.tanggal,
-    required this.imageURL
-  });
+  ActiveOrdersCard(
+      {required this.judul,
+      required this.deskripsi,
+      required this.tanggal,
+      required this.imageURL});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class ActiveOrdersCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Dibeli pada '+(_formatDate(tanggal)),
+                      'Dibeli pada ' + (_formatDate(tanggal)),
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 10,
@@ -35,7 +38,9 @@ class ActiveOrdersCard extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: 5,)
+                    SizedBox(
+                      height: 5,
+                    )
                   ],
                 ),
               ),
@@ -47,12 +52,13 @@ class ActiveOrdersCard extends StatelessWidget {
                 width: 150,
                 height: 90,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: AssetImage(imageURL),fit: BoxFit.cover)
-                ),
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: AssetImage(imageURL), fit: BoxFit.cover)),
               ),
-              SizedBox(width: 5,),
+              SizedBox(
+                width: 5,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,49 +74,66 @@ class ActiveOrdersCard extends StatelessWidget {
                   Text(
                     deskripsi,
                     style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black
-                    ),
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black),
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Color(0xff2E3D64),
-                        ),
-                        child: Text(
-                          'Lanjutkan',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context, 
+                            MaterialPageRoute(
+                              builder: (context) => DetailPaketku(productName: judul)));
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Color(0xff2E3D64),
+                          ),
+                          child: Text(
+                            'Lanjutkan',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           ),
                         ),
                       ),
-                      SizedBox(width: 5,),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          border: Border.all(
-                            width: 2,
-                            color: Color(0xff2E3D64)
-                          )
-                        ),
-                        child: Text(
-                          'Detail Order',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff2E3D64)
+                      SizedBox(
+                        width: 5,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailOrders(judulPaket: judul)));
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              border: Border.all(
+                                  width: 2, color: Color(0xff2E3D64))),
+                          child: Text(
+                            'Detail Order',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff2E3D64)),
                           ),
                         ),
                       ),
@@ -120,8 +143,11 @@ class ActiveOrdersCard extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 15,),
-          Divider( // Garis paling bawah
+          SizedBox(
+            height: 15,
+          ),
+          Divider(
+            // Garis paling bawah
             color: Colors.grey,
             thickness: 1,
           ),
@@ -129,6 +155,7 @@ class ActiveOrdersCard extends StatelessWidget {
       ),
     );
   }
+
   String _formatDate(DateTime date) {
     String day = date.day.toString();
     String month = '';
@@ -175,5 +202,4 @@ class ActiveOrdersCard extends StatelessWidget {
     String year = date.year.toString();
     return '$day $month $year';
   }
-
 }

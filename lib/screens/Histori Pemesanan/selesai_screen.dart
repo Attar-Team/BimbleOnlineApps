@@ -21,6 +21,19 @@ class _SelesaiScreenState extends State<SelesaiScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
+                margin: EdgeInsets.symmetric(horizontal: 15),
+                child: const Text(
+                  '*Anda sudah menyelesaikan paketnya, anda dapat download sertifikat nya',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xff2E3D64)
+                  ),
+                ),
+              ),
+              SizedBox(height: 10,),
+              Container(
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
