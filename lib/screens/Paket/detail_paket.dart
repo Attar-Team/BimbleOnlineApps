@@ -10,7 +10,10 @@ class DetailPaket extends StatefulWidget {
   final String productType;
   final String productDesc;
   final List<Exam> listExam;
-  const DetailPaket({Key? key, required this.productName, required this.productType, required this.productDesc, required this.listExam}) : super(key: key);
+  final int price;
+  final int discount;
+  final String imageURL;
+  const DetailPaket({Key? key, required this.productName, required this.productType, required this.productDesc, required this.listExam, required this.price, required this.discount, required this.imageURL}) : super(key: key);
 
   @override
   State<DetailPaket> createState() => _DetailPaketState();
@@ -32,7 +35,7 @@ class _DetailPaketState extends State<DetailPaket> {
                   width: double.infinity,
                   height: 240,
                   child: Image(
-                    image: AssetImage('images/gambarpaket.png'),
+                    image: AssetImage(widget.imageURL),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -89,7 +92,7 @@ class _DetailPaketState extends State<DetailPaket> {
                       color: Color(0xffD2E5FF),
                     ),
                     child: Text(
-                      'BUMN',
+                      widget.productType,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,
@@ -156,6 +159,8 @@ class _DetailPaketState extends State<DetailPaket> {
                               AboutScreen(
                                 productDescription: widget.productDesc,
                                 listExam: widget.listExam,
+                                price: widget.price,
+                                discount: widget.discount,
                               ),
                               LessonsScreen(),
                             ],

@@ -7,9 +7,11 @@ import '../../services/token_service.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dot_env;
 
 class AboutScreen extends StatefulWidget {
+  final int price;
   final String productDescription;
   final List<Exam> listExam;
-  const AboutScreen({super.key, required this.productDescription, required this.listExam});
+  final int discount;
+  const AboutScreen({super.key, required this.productDescription, required this.listExam, required this.price, required this.discount, });
 
   @override
   State<AboutScreen> createState() => _AboutScreenState();
@@ -128,7 +130,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
               ),
               Text(
-                'Cupidatat tempor ex magna laborum duis dolor aliquip incididunt sit voluptate minim sunt laborum magna. Exercitation pariatur quis id cillum duis officia ullamco et magna proident ut deserunt ipsum. Laborum elit commodo duis Lorem voluptate laboris deserunt nisi elit commodo. Id amet Lorem excepteur dolore laboris Lorem amet. Tempor duis mollit qui voluptate dolor ex anim cupidatat et. Et labore enim exercitation ipsum reprehenderit fugiat. Reprehenderit tempor officia sunt consequat.',
+                widget.productDescription,
                 style: TextStyle(
                   fontFamily: 'Urbanist',
                   fontSize: 15,
@@ -146,9 +148,9 @@ class _AboutScreenState extends State<AboutScreen> {
                   color: Colors.black
                 ),
               ),
-              const Text(
-                '1. Tes Kewawasan Bangsa (TWK) \n2. Tes Intelegensi Umum (TIU) \n3. Tes Karakteristik Pribadi (TKP)',
-                style: TextStyle(
+              Text(
+                widget.listExam.asMap().entries.map((entry) => '${entry.key + 1}. ${entry.value.name}').join('\n'),                
+                  style: TextStyle(
                   fontFamily: 'Urbanist',
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -183,10 +185,10 @@ class _AboutScreenState extends State<AboutScreen> {
                     color: Color(0xff2E3D64),
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Daftar Kursus - Rp100.000',
-                      style: TextStyle(
+                      'Daftar Kursus - Rp${widget.price - widget.discount}',
+                      style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 14,

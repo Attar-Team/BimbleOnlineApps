@@ -467,7 +467,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               MaterialPageRoute(
                                 builder: (context) => DetailPaket(
                                   productName: package.name,
-                                  productType: package.type, productDesc: package.description, listExam: package.listPackage,
+                                  productType: package.type, 
+                                  productDesc: package.description, 
+                                  listExam: package.listPackage,
+                                  price: int.parse(package.price),
+                                  discount: int.parse(package.discount),
+                                  imageURL: package.photo
                                 ),
                               ),
                             );

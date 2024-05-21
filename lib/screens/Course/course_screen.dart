@@ -301,6 +301,9 @@ class _CourseScreenState extends State<CourseScreen> {
                                       productDesc:
                                           packages[index * 2].description,
                                       listExam: packages[index * 2].listPackage,
+                                      price: int.parse(packages[index * 2].price),
+                                      discount: int.parse(packages[index * 2].discount),
+                                      imageURL: packages[index * 2].photo,
                                     ),
                                   ),
                                 );
@@ -334,6 +337,12 @@ class _CourseScreenState extends State<CourseScreen> {
                                             packages[index * 2 + 1].description,
                                         listExam:
                                             packages[index * 2 + 1].listPackage,
+                                        price: 
+                                            int.parse(packages[index * 2 + 1].price),
+                                        discount: 
+                                            int.parse(packages[index * 2 + 1]. discount),
+                                        imageURL: 
+                                            packages[index * 2 + 1].photo,
                                       ),
                                     ),
                                   );
