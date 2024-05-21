@@ -17,7 +17,71 @@ class AkunPageScreen extends StatefulWidget {
 
 class _AkunPageScreenState extends State<AkunPageScreen> {
 
-  void SignOut(){
+  void _confirmSignOut(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text(
+            'Confirm Logout',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold
+            ),),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: BorderSide(color: Color(0xff2E3D64), width: 2),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              ),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xff2E3D64),
+                ),),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Color(0xff2E3D64),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              ),
+              child: Text(
+                'Logout',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white
+                ),),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _signOut(); // Proceed with sign out
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _signOut(){
     AuthService().signOut(context: context);
     Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
@@ -116,12 +180,13 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(
                                   8.0), // Padding antara setiap card
-                              child: ProductCard(
-                                imageURL: product.imageURL,
-                                name: product.title,
-                                description: product.description,
-                                price: product.price,
-                              ),
+                              // child: ProductCard(
+                              //   imageURL: product.imageURL,
+                              //   name: product.title,
+                              //   description: product.description,
+                              //   price: product.price,
+                              //   discount: product.discount,
+                              // ),
                             ),
                           );
                         }).toList(),
@@ -217,7 +282,7 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
               ),
               SizedBox(height: 20,),
               GestureDetector(
-                onTap: SignOut,
+                onTap: () => _confirmSignOut(context),
                 child : Container(
                   margin: EdgeInsets.only(left: 20),
                   child: Row(

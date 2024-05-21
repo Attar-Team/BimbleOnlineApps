@@ -3,6 +3,7 @@ import 'package:bumn_muda/screens/Home/home_screen.dart';
 import 'package:bumn_muda/screens/Auth/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 
 class Login2Screen extends StatefulWidget {
@@ -24,13 +25,22 @@ class _Login2ScreenState extends State<Login2Screen> {
   void SignIn() async{
 
     showDialog(
-        barrierDismissible: false
-        ,context: context
-        ,builder: (context) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Lottie.asset(
+              'assets/animations/loading_anim.json',
+              width: 200,
+              height: 200
+            ),
+          ),
+        );
+      },
     );
 
     try {
@@ -205,9 +215,9 @@ class _Login2ScreenState extends State<Login2Screen> {
               keyboardType: TextInputType.emailAddress,
               style: const TextStyle(
                 color: Colors.black87,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
+                fontFamily: 'Urbanist',
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
               ),
               decoration: const InputDecoration(
                   border: InputBorder.none,
@@ -254,9 +264,9 @@ class _Login2ScreenState extends State<Login2Screen> {
               obscureText: _obscureText,
               style:  const TextStyle(
                   color: Colors.black87,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12),
+                  fontFamily: 'Urbanist',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.only(top: 10),

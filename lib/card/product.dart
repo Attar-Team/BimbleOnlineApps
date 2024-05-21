@@ -4,7 +4,7 @@ class Product{
   final String imageURL;
   final String title;
   final String description;
-  final String price;
+  final int price;
 
   Product({
     required this.imageURL,
@@ -19,30 +19,30 @@ final List<Product> products = [
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 1",
         description: "Deskripsi Produk 1",
-        price: "Rp 100.000",
+        price: 100000,
       ),
       Product(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 2",
         description: "Deskripsi Produk 2",
-        price: "Rp 200.000",
+        price: 200000,
       ),
       Product(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 3",
         description: "Deskripsi Produk 3",
-        price: "Rp 300.000",
+        price: 300000,
       ),
       Product(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 4",
         description: "Deskripsi Produk 4",
-        price: "Rp 400.000",
+        price: 400000,
       ),
       Product(
         imageURL: "images/gambarpaket.png",
         title: "Nama Produk 5",
         description: "Deskripsi Produk 5",
-        price: "Rp 500.000",
+        price: 500000,
       ),
     ];

@@ -7,7 +7,8 @@ class ProductCard extends StatelessWidget {
   final String imageURL;
   final String name;
   final String description;
-  final String price;
+  final int price;
+  final int? discount;
   final TextStyle textStyle = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 16,
@@ -20,6 +21,7 @@ class ProductCard extends StatelessWidget {
     required this.name,
     required this.description,
     required this.price,
+    required this.discount
   });
     
   @override
@@ -78,12 +80,41 @@ class ProductCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: EdgeInsets.all(5),
-                    child: Text(
-                      price,
-                      style: 
-                        textStyle.copyWith(color: firstColor),),),
+                  if (discount != null) 
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Rp${price - discount!}',
+                            style: textStyle.copyWith(color: firstColor),
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            'Rp$price',
+                            style: textStyle.copyWith(
+                              color: Colors.red,
+                              fontSize: 10,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      child: Text(
+                        'Rp$price',
+                        style: textStyle.copyWith(color: firstColor),
+                      ),
+                    ),
+                  // Container(
+                  //   margin: EdgeInsets.all(5),
+                  //   child: Text(
+                  //     price.toString(),
+                  //     style: 
+                  //       textStyle.copyWith(color: firstColor),),),
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.only(right: 5, left: 5, bottom: 5),

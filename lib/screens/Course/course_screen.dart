@@ -1,7 +1,15 @@
 import 'package:bumn_muda/card/product.dart';
 import 'package:bumn_muda/card/product_card.dart';
+import 'package:bumn_muda/data/paket.dart';
+import 'package:bumn_muda/data/response/paket_response.dart';
 import 'package:bumn_muda/screens/Paket/detail_paket.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:lottie/lottie.dart';
+
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CourseScreen extends StatefulWidget {
   const CourseScreen({super.key});
@@ -11,6 +19,65 @@ class CourseScreen extends StatefulWidget {
 }
 
 class _CourseScreenState extends State<CourseScreen> {
+  late Future<ApiResponse> futureApiResponse;
+  List<Package> packages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Menunda eksekusi fetchPackages hingga frame pertama selesai dirender
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      fetchPackages(context).then((apiResponse) {
+        setState(() {
+          packages = apiResponse.data;
+        });
+      }).catchError((error) {
+        // Tangani kesalahan jika perlu
+        print('Error fetching packages: $error');
+      });
+    });
+  }
+
+  Future<ApiResponse> fetchPackages(BuildContext context) async {
+    showLoadingDialog(context);
+    try {
+      final response = await http
+          .get(Uri.parse('http://bimbel.adzazarif.my.id/api/package'));
+
+      if (response.statusCode == 200) {
+        Navigator.of(context).pop(); // Close the loading dialog
+        return ApiResponse.fromJson(json.decode(response.body));
+      } else {
+        Navigator.of(context).pop(); // Close the loading dialog
+        throw Exception('Failed to load packages');
+      }
+    } catch (e) {
+      Navigator.of(context).pop(); // Close the loading dialog
+      throw e; // Rethrow the exception
+    }
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Lottie.asset(
+              'assets/animations/book_anim.json',
+              width: 200,
+              height: 200
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   bool? jenisCheckbox1 = false;
   bool? jenisCheckbox2 = false;
   bool kategoriCheckbox1 = false;
@@ -212,11 +279,11 @@ class _CourseScreenState extends State<CourseScreen> {
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
-                height: 570, // Atur tinggi sesuai kebutuhan Anda
+                height: 570, // Sesuaikan tinggi sesuai kebutuhan
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount:
-                      (products.length / 2).ceil(), // Menentukan jumlah baris
+                      (packages.length / 2).ceil(), // Menentukan jumlah baris
                   itemBuilder: (context, index) {
                     return Row(
                       children: [
@@ -225,43 +292,62 @@ class _CourseScreenState extends State<CourseScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
                               onTap: () {
-                                // Implementasi tindakan ketika item diklik di sini
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailPaket(productName: products[index * 2].title, productType: 'BUMN', productDesc: '', listExam: [],),
+                                    builder: (context) => DetailPaket(
+                                      productName: packages[index * 2].name,
+                                      productType: packages[index * 2].type,
+                                      productDesc:
+                                          packages[index * 2].description,
+                                      listExam: packages[index * 2].listPackage,
+                                    ),
                                   ),
                                 );
                               },
                               child: ProductCard(
-                                imageURL: products[index * 2].imageURL,
-                                name: products[index * 2].title,
-                                description: products[index * 2].description,
-                                price: products[index * 2].price,
+                                imageURL:
+                                    'http://bimbel.adzazarif.my.id/${packages[index * 2].photo}',
+                                name: packages[index * 2].name,
+                                description: packages[index * 2].description,
+                                price: int.parse(packages[index * 2].price),
+                                discount: int.parse(packages[index * 2].discount),
                               ),
                             ),
                           ),
                         ),
-                        if ((index * 2 + 1) < products.length)
+                        if ((index * 2 + 1) < packages.length)
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  // Implementasi tindakan ketika item diklik di sini
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DetailPaket(productName: products[index * 2 + 1].title, productType: '', productDesc: '', listExam: [],),
+                                      builder: (context) => DetailPaket(
+                                        productName:
+                                            packages[index * 2 + 1].name,
+                                        productType:
+                                            packages[index * 2 + 1].type,
+                                        productDesc:
+                                            packages[index * 2 + 1].description,
+                                        listExam:
+                                            packages[index * 2 + 1].listPackage,
+                                      ),
                                     ),
                                   );
                                 },
                                 child: ProductCard(
-                                  imageURL: products[index * 2 + 1].imageURL,
-                                  name: products[index * 2 + 1].title,
+                                  imageURL:
+                                      'http://bimbel.adzazarif.my.id/${packages[index * 2 + 1].photo}',
+                                  name: packages[index * 2 + 1].name,
                                   description:
-                                      products[index * 2 + 1].description,
-                                  price: products[index * 2 + 1].price,
+                                      packages[index * 2 + 1].description,
+                                  price:
+                                      int.parse(packages[index * 2 + 1].price),
+                                  discount: 
+                                      int.parse(packages[index * 2 + 1].discount),
                                 ),
                               ),
                             ),

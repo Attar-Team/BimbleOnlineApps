@@ -8,6 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:bumn_muda/card/product_card.dart';
 import 'package:bumn_muda/card/product.dart';
+import 'package:lottie/lottie.dart';
+
 
 import '../../data/paket.dart';
 import '../../data/response/paket_response.dart';
@@ -75,15 +77,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(width: 16),
-                Text('Loading...'),
-              ],
+            child: Lottie.asset(
+              'assets/animations/book_anim.json',
+              width: 200,
+              height: 200
             ),
           ),
         );
@@ -477,7 +478,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               imageURL: 'http://127.0.0.1:8000/${package.photo}',
                               name: package.name,
                               description: package.description,
-                              price: package.price.toString(),
+                              price: int.parse(package.price),
+                              discount: int.parse(package.discount),
                             ),
                           ),
                         );
