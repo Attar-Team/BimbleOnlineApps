@@ -1,3 +1,8 @@
+import 'package:bumn_muda/screens/Menu%20Akun/atribute_screen.dart';
+import 'package:bumn_muda/screens/Menu%20Akun/editprofil_screen.dart';
+import 'package:bumn_muda/screens/Menu%20Akun/privasi_screen.dart';
+import 'package:bumn_muda/screens/Menu%20Akun/syarat_screen.dart';
+import 'package:bumn_muda/screens/Menu%20Akun/tentang_screen.dart';
 import 'package:bumn_muda/screens/Paket/detail_paket.dart';
 import 'package:bumn_muda/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bumn_muda/card/product_card.dart';
 import 'package:bumn_muda/card/product.dart';
+import 'package:flutter/widgets.dart';
 
 import '../Auth/login_screen.dart';
 
@@ -102,13 +108,14 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xff2E3D64),
-                        Color(0xff0093AC)
-                      ]),
+                  color: Color(0xff2E3D64),
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topLeft,
+                    //   end: Alignment.bottomRight,
+                    //   colors: [
+                    //     Color(0xff2E3D64),
+                    //     Color(0xff0093AC)
+                    //   ]),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -192,95 +199,152 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                         }).toList(),
                       )),
                 ),
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'images/icons_akun1.png',
-                      height: 30,
-                      width: 30,),
-                    SizedBox(width: 20,),
-                    Text(
-                      'Edit Profil',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                      ),
-                    )
-                  ],
+              const SizedBox(height: 20,),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context) => const EditProfilScreen()));
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'images/icons_akun1.png',
+                        height: 30,
+                        width: 30,),
+                      const SizedBox(width: 20,),
+                      const Text(
+                        'Edit Profil',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20,),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context) => PrivasiScreen()));
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'images/verified.png',
+                        height: 30,
+                        width: 30,),
+                      const SizedBox(width: 20,),
+                      const Text(
+                        'Kebijakan Privasi',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'images/icons_akun2.png',
-                      height: 30,
-                      width: 30,),
-                    SizedBox(width: 20,),
-                    Text(
-                      'Payment',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                      ),
-                    )
-                  ],
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context) => SyaratScreen()));
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'images/terms.png',
+                        height: 30,
+                        width: 30,),
+                      const SizedBox(width: 20,),
+                      const Text(
+                        'Syarat dan Ketentuan Layanan',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'images/icons_akun3.png',
-                      height: 30,
-                      width: 30,),
-                    SizedBox(width: 20,),
-                    Text(
-                      'Privacy Policy',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                      ),
-                    )
-                  ],
+              const SizedBox(height: 20,),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context) => TentangScreen()));
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'images/aboutus.png',
+                        height: 30,
+                        width: 30,),
+                      const SizedBox(width: 20,),
+                      const Text(
+                        'Tentang Kami',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+                        ),
+                      )
+                    ],  
+                  ),
                 ),
               ),
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      'images/icons_akun4.png',
-                      height: 30,
-                      width: 30,),
-                    SizedBox(width: 20,),
-                    Text(
-                      'Pusat Bantuan',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                      ),
-                    )
-                  ],
+              const SizedBox(height: 20,),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context) => AtributeScreen()));
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'images/atribut.png',
+                        height: 30,
+                        width: 30,),
+                      const SizedBox(width: 20,),
+                      const Text(
+                        'Atribut',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               GestureDetector(
                 onTap: () => _confirmSignOut(context),
                 child : Container(
@@ -291,13 +355,13 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                         'images/icons_akun5.png',
                         height: 30,
                         width: 30,),
-                      SizedBox(width: 20,),
-                      Text(
+                      const SizedBox(width: 20,),
+                      const Text(
                         'Logout',
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w500,
                           color: Colors.red
                         ),
                       )
@@ -305,7 +369,18 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 30,)
+              SizedBox(height: 30,),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Version 0.0.1',
+                  style: TextStyle(
+                    fontFamily: 'Urbanist',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
+              )
             ],
           ),
         ),

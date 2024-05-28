@@ -98,7 +98,11 @@ flutter:
     - images/icons_akun3.png
     - images/icons_akun4.png    
     - images/icons_akun5.png
+    - images/verified.png
+    - images/terms.png
     - images/gambarpaket.png
+    - images/aboutus.png
+    - images/atribut.png
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
