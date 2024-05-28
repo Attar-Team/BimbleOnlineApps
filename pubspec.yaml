@@ -53,6 +53,7 @@ dependencies:
   equatable: ^2.0.5
   fluttertoast: ^8.0.8
   youtube_player_flutter: ^8.1.2
+  dio: ^5.4.3+1
 
 
 dev_dependencies:

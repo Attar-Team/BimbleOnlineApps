@@ -1,9 +1,11 @@
+import 'package:bumn_muda/data/response/login_response.dart';
 import 'package:bumn_muda/screens/Auth/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:http/http.dart' as http;
 import '../Home/home_screen.dart';
+import 'dart:convert';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,18 +16,34 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
+
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(Duration(seconds: 2), () {
-      // Tambahkan pengaturan aliran login di initState
+    _loginAndNavigate();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    super.dispose();
+  }
+
+  Future<void> _loginAndNavigate() async {
+    try {
+      loginResponse login_response = await postFormData("admin@gmail.com", "12345");
+
+      // Simulate a delay for the splash screen
+      await Future.delayed(Duration(seconds: 2));
+
       FirebaseAuth.instance.authStateChanges().listen((User? user) {
         if (user != null) {
           // Jika pengguna telah login, arahkan ke layar beranda atau layar utama
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) =>   HomeScreen(), // Ganti HomeScreen dengan nama layar beranda Anda
+            builder: (_) => HomeScreen(token: login_response.data.token),
           ));
         } else {
           // Jika pengguna belum login, arahkan ke layar login
@@ -34,14 +52,40 @@ class _SplashScreenState extends State<SplashScreen>
           ));
         }
       });
-    });
+    } catch (e) {
+      print('Login failed: $e');
+      // Navigate to LoginScreen if login fails
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => const LoginScreen(),
+      ));
+    }
   }
 
-  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
-    super.dispose();
+  Future<loginResponse> postFormData(String email, String password) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://bimbel.adzazarif.my.id/api/login'),
+        headers: <String, String>{
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {
+          'email': email,
+          'password': password,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Form data sent successfully');
+        return loginResponse.fromJson(json.decode(response.body));
+      } else {
+        print('Failed to send form data: ${response.statusCode} ${response.reasonPhrase}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to send form data: ${response.statusCode} ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+      throw Exception('Failed to send form data: $e');
+    }
   }
 
   @override

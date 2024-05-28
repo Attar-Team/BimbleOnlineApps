@@ -8,12 +8,15 @@ import 'package:line_icons/line_icons.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../../data/response/login_response.dart';
 import '../../data/response/paket_response.dart';
 import 'akunpage_screen.dart';
 import 'homepage_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String token;
+
+  const HomeScreen({super.key, required this.token});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

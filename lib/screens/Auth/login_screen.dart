@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // Pengguna berhasil login
       print('User berhasil login: ${user.displayName}');
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(token: "",)));
     } else {
       // Gagal login
       print('Gagal login dengan Google');

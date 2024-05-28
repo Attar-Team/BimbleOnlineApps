@@ -50,7 +50,7 @@ class _Login2ScreenState extends State<Login2Screen> {
       );
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen(token: "",)));
     } on FirebaseAuthException catch(e) {
       if (e.code == 'user-not-found') {
         Navigator.pop(context);

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:bumn_muda/card/product_card.dart';
 import 'package:bumn_muda/card/product.dart';
@@ -137,7 +138,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             children: [
                               SizedBox(height: 60,),
                               Text(
-                                'Hi, Asyam',
+                                'Hi, Rahmat',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w700,
@@ -205,7 +206,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   padding: const EdgeInsets.all(15.0),
                                   child: Column(
                                     children: [
-                                      Text(
+                                      const Text(
                                         '100+ Kursus ditambahkan setiap harinya, Explore sekarang juga',
                                         style: TextStyle(
                                           fontFamily: 'Poppins',
@@ -227,32 +228,39 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                   curve: Curves.easeInOut);
                                                 });
                                               },
-                                              child: Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 5),
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xff2E3D64),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                ),
-                                                child: const Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      'Beli Paket',
-                                                      style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 13
+                                              child: InkWell(
+                                                onTap: (){
+                                                  Navigator.push(
+                                                      context, MaterialPageRoute(
+                                                      builder: (context) => CourseScreen())
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(vertical: 5),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xff2E3D60),
+                                                    borderRadius:
+                                                    BorderRadius.circular(12),
+                                                  ),
+                                                  child: const Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                    children: [
+                                                      Text(
+                                                        'Beli Paket',
+                                                        style: TextStyle(
+                                                            fontFamily: 'Poppins',
+                                                            color: Colors.white,
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 13
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Icon(Icons.arrow_forward,
-                                                        color: Colors.white),
-                                                  ],
+                                                      Icon(Icons.arrow_forward,
+                                                          color: Colors.white),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
+                                              )
                                             ),
                                           ),
                                         ],
