@@ -14,32 +14,41 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-final List<String> imagePaths = [
-  "images/loginslideone.png",
-  "images/loginslidetwo.png",
-  "images/loginslidethree.png"
-];
-
-late List<Widget> _pages;
-
-int _activePage = 0;
-
-final PageController _pageController = PageController(initialPage: 0);
-
-Timer? _timer;
-
 class _LoginScreenState extends State<LoginScreen> {
 
-  void GoogleSignIn() async{
+  final List<String> imagePaths = [
+    "images/loginslideone.png",
+    "images/loginslidetwo.png",
+    "images/loginslidethree.png"
+  ];
 
+  late List<Widget> _pages;
+  int _activePage = 0;
+  late PageController _pageController;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+    _pages = imagePaths.map((path) => Image.asset(path)).toList();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void GoogleSignIn() async {
     User? user = await AuthService().LoginGoogle(context: context);
     if (user != null) {
-      // Pengguna berhasil login
       print('User berhasil login: ${user.displayName}');
       Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(token: "",)));
     } else {
-      // Gagal login
       print('Gagal login dengan Google');
     }
   }
@@ -54,18 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
             duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
       }
     });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _pages = List.generate(
-        imagePaths.length,
-        (index) => ImagePlaceHolder(
-              imagePath: imagePaths[index],
-            ));
-    startTimer();
   }
 
   @override

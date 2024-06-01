@@ -28,7 +28,6 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   ScrollController _scrollController = ScrollController();
   int selectedIndex = 0;
-  late Future<ApiResponse> futureApiResponse;
   List<Package> packages = [];
 
   void handleContainerTap(int index) {
