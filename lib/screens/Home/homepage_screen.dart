@@ -11,24 +11,22 @@ import 'package:bumn_muda/card/product_card.dart';
 import 'package:bumn_muda/card/product.dart';
 import 'package:lottie/lottie.dart';
 
-
 import '../../data/paket.dart';
-import '../../data/response/paket_response.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 
 class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({super.key});
+
+  final List<Package> packages;
+
+  const HomePageScreen({Key? key, required this.packages}) : super(key: key);
 
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
+
 class _HomePageScreenState extends State<HomePageScreen> {
   ScrollController _scrollController = ScrollController();
   int selectedIndex = 0;
-  List<Package> packages = [];
 
   void handleContainerTap(int index) {
     setState(() {
@@ -39,59 +37,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     super.initState();
-    // Menunda eksekusi fetchPackages hingga frame pertama selesai dirender
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      fetchPackages(context).then((apiResponse) {
-        setState(() {
-          packages = apiResponse.data;
-        });
-      }).catchError((error) {
-        // Tangani kesalahan jika perlu
-        print('Error fetching packages: $error');
-      });
-    });
+    print("Home Page Packages : ${widget.packages.length}");
   }
 
-  Future<ApiResponse> fetchPackages(BuildContext context) async {
-    showLoadingDialog(context);
-    try {
-      final response = await http.get(Uri.parse('http://bimbel.adzazarif.my.id/api/package'));
-
-      if (response.statusCode == 200) {
-        Navigator.of(context).pop(); // Close the loading dialog
-        return ApiResponse.fromJson(json.decode(response.body));
-      } else {
-        Navigator.of(context).pop(); // Close the loading dialog
-        throw Exception('Failed to load packages');
-      }
-    } catch (e) {
-      Navigator.of(context).pop(); // Close the loading dialog
-      throw e; // Rethrow the exception
-    }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
-
-
-  void showLoadingDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Lottie.asset(
-              'assets/animations/book_anim.json',
-              width: 200,
-              height: 200
-            ),
-          ),
-        );
-      },
-    );
-  }
-
 
   final myItems = [
     Image.asset('images/poster1.png'),
@@ -466,7 +419,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
                     child: Row(
-                      children: packages.map((package) {
+                      children: widget.packages.map((package) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(

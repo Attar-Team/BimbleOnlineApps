@@ -54,6 +54,8 @@ dependencies:
   fluttertoast: ^8.0.8
   youtube_player_flutter: ^8.1.2
   dio: ^5.4.3+1
+  image_picker: ^0.8.4+4
+  flutter_secure_storage: ^9.2.2
 
 
 dev_dependencies:

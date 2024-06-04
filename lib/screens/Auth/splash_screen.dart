@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import '../../data/user.dart';
 import '../Home/home_screen.dart';
 import 'dart:convert';
 
@@ -33,8 +34,20 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _loginAndNavigate() async {
+
+    UserData user_data = UserData(id: 12,
+      socialId: null,
+      name: "Budi Kopling",
+      email: "budikopling@gmail.com",
+      image: "uploads/foto_profile/UstIcvCrgRh2SWksw8StKpuApk0xvxw89L8Nj9gd.jpg",
+      phone: "0882",
+      emailVerifiedAt: null,
+      createdAt: DateTime(2024, 6, 1, 18, 53, 17),
+      updatedAt: DateTime(2024, 6, 1, 18, 53, 17),
+      role: "user",);
+
     try {
-      loginResponse login_response = await postFormData("admin@gmail.com", "12345");
+      LoginResponse login_response = await postFormData("admin@gmail.com", "12345");
 
       // Simulate a delay for the splash screen
       await Future.delayed(Duration(seconds: 2));
@@ -43,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
         if (user != null) {
           // Jika pengguna telah login, arahkan ke layar beranda atau layar utama
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => HomeScreen(token: login_response.data.token),
+            builder: (_) => HomeScreen(user: user_data,),
           ));
         } else {
           // Jika pengguna belum login, arahkan ke layar login
@@ -61,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  Future<loginResponse> postFormData(String email, String password) async {
+  Future<LoginResponse> postFormData(String email, String password) async {
     try {
       final response = await http.post(
         Uri.parse('http://bimbel.adzazarif.my.id/api/login'),
@@ -76,7 +89,7 @@ class _SplashScreenState extends State<SplashScreen>
 
       if (response.statusCode == 200) {
         print('Form data sent successfully');
-        return loginResponse.fromJson(json.decode(response.body));
+        return LoginResponse.fromJson(json.decode(response.body));
       } else {
         print('Failed to send form data: ${response.statusCode} ${response.reasonPhrase}');
         print('Response body: ${response.body}');

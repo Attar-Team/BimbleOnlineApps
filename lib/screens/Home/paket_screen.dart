@@ -2,11 +2,7 @@ import 'package:bumn_muda/screens/Paketku/detail_paketku.dart';
 import 'package:flutter/material.dart';
 import 'package:bumn_muda/card/paketku_card.dart';
 import 'package:bumn_muda/card/paketku.dart';
-import 'package:flutter/scheduler.dart';
 import '../../data/paket_terbeli.dart';
-import '../../data/response/paket_terbeli_response.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:lottie/lottie.dart';
 
 class PaketScreen extends StatefulWidget {
@@ -23,38 +19,6 @@ class _PaketScreenState extends State<PaketScreen> {
   @override
   void initState() {
     super.initState();
-
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      fetchPaketTerbeli(context).then((apiResponse) {
-        setState(() {
-          paketTerbeli = apiResponse.data;
-          for (var paket in paketTerbeli) {
-            print(paket.toJson());
-          }
-        });
-      }).catchError((error) {
-        // Tangani kesalahan jika perlu
-        print('Error fetching paket terbeli: $error');
-      });
-    });
-  }
-
-  Future<PaketTerbeliResponse> fetchPaketTerbeli(BuildContext context) async {
-    showLoadingDialog(context);
-    try {
-      final response = await http.get(Uri.parse('http://bimbel.adzazarif.my.id/api/purchased-package/1'));
-
-      if (response.statusCode == 200) {
-        Navigator.of(context).pop();
-        return PaketTerbeliResponse.fromJson(json.decode(response.body));
-      } else {
-        Navigator.of(context).pop();
-        throw Exception('Failed to load paket terbeli : ${response.body}');
-      }
-    } catch (e) {
-      Navigator.of(context).pop();
-      throw e;
-    }
   }
 
   void showLoadingDialog(BuildContext context) {

@@ -13,6 +13,11 @@ class Exam {
     required this.amountAccess,
   });
 
+  @override
+  String toString() {
+    return 'Exam{id: $id, courseId: $courseId, name: $name, isReview: $isReview, amountAccess: $amountAccess}';
+  }
+
   factory Exam.fromJson(Map<String, dynamic> json) {
     return Exam(
       id: json['id'] ?? 0, // Gunakan nilai default jika null

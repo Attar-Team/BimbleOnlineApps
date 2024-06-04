@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bumn_muda/data/user.dart';
 import 'package:bumn_muda/screens/Auth/login2_screen.dart';
 import 'package:bumn_muda/screens/Home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,11 +44,22 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void GoogleSignIn() async {
+    UserData user_data = UserData(id: 12,
+      socialId: null,
+      name: "Budi Kopling",
+      email: "budikopling@gmail.com",
+      image: "uploads/foto_profile/UstIcvCrgRh2SWksw8StKpuApk0xvxw89L8Nj9gd.jpg",
+      phone: "0882",
+      emailVerifiedAt: null,
+      createdAt: DateTime(2024, 6, 1, 18, 53, 17),
+      updatedAt: DateTime(2024, 6, 1, 18, 53, 17),
+      role: "user",);
+
     User? user = await AuthService().LoginGoogle(context: context);
     if (user != null) {
       print('User berhasil login: ${user.displayName}');
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(token: "",)));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(user: user_data,)));
     } else {
       print('Gagal login dengan Google');
     }

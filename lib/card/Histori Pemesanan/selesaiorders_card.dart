@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 class SelesaiOrdersCard extends StatelessWidget {
   final String judul;
   final String deskripsi;
-  final DateTime tanggal;
+  final DateTime? tanggal;
   final String imageURL;
 
   SelesaiOrdersCard({
@@ -31,7 +31,7 @@ class SelesaiOrdersCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Dibeli pada '+(_formatDate(tanggal)),
+                      'Dibeli pada '+(_formatDate(tanggal!)),
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 10,

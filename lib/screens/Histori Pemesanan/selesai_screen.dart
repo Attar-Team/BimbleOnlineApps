@@ -2,19 +2,34 @@ import 'package:bumn_muda/card/Histori%20Pemesanan/selesaiorders.dart';
 import 'package:bumn_muda/card/Histori%20Pemesanan/selesaiorders_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/histori_pemesanan.dart';
+import '../../data/paket.dart';
+
 class SelesaiScreen extends StatefulWidget {
-  const SelesaiScreen({super.key});
+  final List<HistoriPemesanan> data;
+  final List<Package> dataPaket;
+
+  const SelesaiScreen({Key? key, required this.data, required this.dataPaket}) : super(key: key);
 
   @override
   State<SelesaiScreen> createState() => _SelesaiScreenState();
 }
 
 class _SelesaiScreenState extends State<SelesaiScreen> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    print("Selesai Orders : ${widget.data.length}");
+    print("Packages : ${widget.dataPaket.length}");
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
         child: Container(
           margin: EdgeInsets.only(top: 10),
           child: Column(
@@ -33,20 +48,18 @@ class _SelesaiScreenState extends State<SelesaiScreen> {
                 ),
               ),
               SizedBox(height: 10,),
-              Container(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    return SelesaiOrdersCard(
-                      judul: products[index].judul,
-                      deskripsi: products[index].deskripsi,
-                      tanggal: products[index].tanggal,
-                      imageURL: products[index].imageURL,
-                    );
-                  },
-                ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.data.length,
+                itemBuilder: (context, index) {
+                  return SelesaiOrdersCard(
+                    judul: "Anjai Bisa",
+                    deskripsi: "Anjai Bisa",
+                    tanggal: DateTime.tryParse(widget.data[index].createdAt),
+                    imageURL: "",
+                  );
+                },
               ),
             ],
           ),

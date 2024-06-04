@@ -1,23 +1,17 @@
-import 'dart:ffi';
+import '../login.dart';
 
-import '../token.dart';
+class LoginResponse{
+  bool status;
+  String message;
+  Login data;
 
-class loginResponse {
-  final bool status;
-  final String message;
-  final Token data;
+  LoginResponse({required this.status, required this.message, required this.data});
 
-  loginResponse({
-    required this.status,
-    required this.message,
-    required this.data,
-  });
-
-  factory loginResponse.fromJson(Map<String, dynamic> json) {
-    return loginResponse(
-      status: json['status'],
-      message: json['message'],
-      data: Token.fromJson(json['data']),
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    return LoginResponse(
+      status: json['status'] ?? false, // Default value if null
+      message: json['message'] ?? '', // Default value if null
+      data: Login.fromJson(json['data'] ?? {}), // Default value if null
     );
   }
 

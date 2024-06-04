@@ -24,6 +24,11 @@ class Package {
     required this.listPackage,
   });
 
+  @override
+  String toString() {
+    return 'Package{id: $id, name: $name, type: $type, category: $category, price: $price, discount: $discount, description: $description, photo: $photo, listPackage: $listPackage}';
+  }
+
   factory Package.fromJson(Map<String, dynamic> json) {
     var listPackageJson = json['list_package'] as List;
     List<Exam> listPackage = listPackageJson.map((i) => Exam.fromJson(i)).toList();
@@ -54,4 +59,5 @@ class Package {
       'list_package': listPackage.map((e) => e.toJson()).toList(),
     };
   }
+
 }

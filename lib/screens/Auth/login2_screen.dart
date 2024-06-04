@@ -1,10 +1,17 @@
+import 'dart:convert';
+
+import 'package:bumn_muda/data/login.dart';
+import 'package:bumn_muda/data/response/login_response.dart';
+import 'package:bumn_muda/data/response/user_response.dart';
 import 'package:bumn_muda/screens/Auth/forgot_password_screen.dart';
 import 'package:bumn_muda/screens/Home/home_screen.dart';
 import 'package:bumn_muda/screens/Auth/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
 
 class Login2Screen extends StatefulWidget {
   const Login2Screen({super.key});
@@ -22,8 +29,8 @@ class _Login2ScreenState extends State<Login2Screen> {
     print("$tag : $data");
   }
 
-  void SignIn() async{
-
+  void _loginAndNavigate() async {
+    // Menampilkan dialog loading
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -36,7 +43,7 @@ class _Login2ScreenState extends State<Login2Screen> {
             child: Lottie.asset(
               'assets/animations/loading_anim.json',
               width: 200,
-              height: 200
+              height: 200,
             ),
           ),
         );
@@ -44,32 +51,119 @@ class _Login2ScreenState extends State<Login2Screen> {
     );
 
     try {
+      // Langkah 1: Sign in dengan Firebase Auth
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim()
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       );
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen(token: "",)));
-    } on FirebaseAuthException catch(e) {
+
+      // Langkah 2: Panggil postData
+      LoginResponse response = await postData(emailController.text.trim(), passwordController.text.trim());
+
+      if (response.status == true && response.data.token != null) {
+        // Langkah 3: Jika kedua langkah berhasil, jalankan fungsi get user
+
+        UserResponse user_response = await getData( "http://bimbel.adzazarif.my.id/api/user", response.data.token);
+
+        if(user_response.status == 200){
+          Navigator.pop(context); // Menutup dialog loading
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen(user: user_response.data ,)),
+          );
+        } else {
+          Navigator.pop(context); // Menutup dialog loading
+          invalidLogin();
+          print('Login failed: ${user_response.message}');
+
+        }
+      } else {
+        // Jika postData gagal
+        Navigator.pop(context); // Menutup dialog loading
+        invalidLogin();
+        print('Login failed: ${response.message}');
+      }
+    } on FirebaseAuthException catch (e) {
+      // Jika sign in dengan Firebase Auth gagal
+      Navigator.pop(context); // Menutup dialog loading
       if (e.code == 'user-not-found') {
-        Navigator.pop(context);
         invalidLogin();
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        Navigator.pop(context);
         invalidLogin();
         print('Wrong password provided for that user.');
       } else {
-        Navigator.pop(context);
         invalidLogin();
         print('Error: ${e.code}');
       }
     } catch (e) {
-      Navigator.pop(context);
+      // Menangani kesalahan tak terduga lainnya
+      Navigator.pop(context); // Menutup dialog loading
       invalidLogin();
       print('Unexpected error occurred: $e');
     }
+  }
+
+  Future<UserResponse> getData(String url, String token) async {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      final jsonBody = jsonDecode(response.body) as Map<String, dynamic>;
+      return UserResponse.fromJson(jsonBody);
+    } else {
+      throw Exception('Failed to get data: ${response.statusCode}');
+    }
+  }
+
+  Future<LoginResponse> postData(String email, String password) async {
+    var uri = Uri.parse('http://bimbel.adzazarif.my.id/api/login'); // Ganti dengan URL API Anda
+
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['email'] = email
+      ..fields['password'] = password;
+
+    try {
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        var responseBody = await response.stream.bytesToString();
+        var responseData = json.decode(responseBody);
+        print('Response: $responseData');
+
+        // Mengembalikan objek LoginResponse
+        return LoginResponse.fromJson(responseData);
+      } else {
+        print('Failed to post data. Status code: ${response.statusCode}');
+        // Mengembalikan objek LoginResponse dengan status gagal
+        return LoginResponse(status: false, message: 'Failed to post data.', data: Login(token: "", name: ""));
+      }
+    } catch (e) {
+      print('Error: $e');
+      // Mengembalikan objek LoginResponse dengan status gagal dan pesan error
+      return LoginResponse(status: false, message: e.toString(), data: Login(token: "", name: ""));
+    }
+  }
+
+  void invalidLogin() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Invalid Login'),
+          content: const Text('Please check your email and password'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -77,26 +171,6 @@ class _Login2ScreenState extends State<Login2Screen> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
-  }
-
-  void invalidLogin() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Invalid Login'),
-            content: const Text('Please check your email and password'),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('OK')
-              )
-            ],
-          );
-        }
-    );
   }
 
   void ForgotPassword() {
@@ -326,7 +400,7 @@ class _Login2ScreenState extends State<Login2Screen> {
             String email = emailController.text;
             String password = passwordController.text;
             logData("Login Data", "$email, $password");
-            SignIn();
+            _loginAndNavigate();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xff2E3D64), // Warna latar belakang tombol
