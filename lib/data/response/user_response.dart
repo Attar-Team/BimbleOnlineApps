@@ -1,7 +1,7 @@
 import 'package:bumn_muda/data/user.dart';
 
 class UserResponse{
-  bool status;
+  int status;
   String message;
   UserData data;
 
