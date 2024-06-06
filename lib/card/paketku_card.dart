@@ -51,10 +51,26 @@ class PaketkuCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5)
+                        topRight: Radius.circular(5),
                       ),
-                      image: DecorationImage(
-                        image: AssetImage(imageURL), fit: BoxFit.cover)
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5),
+                      ),
+                      child: Image.network(
+                        "https://bimbel.adzazarif.my.id/storage/$imageURL",
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey,
+                            child: Center(
+                              child: Text(error.toString()  ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Container(
@@ -89,7 +105,7 @@ class PaketkuCard extends StatelessWidget {
                       color: firstColor,
                       borderRadius: BorderRadius.circular(5)
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Lanjutkan Belajar',
                         style: TextStyle(

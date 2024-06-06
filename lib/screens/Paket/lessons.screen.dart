@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:bumn_muda/card/lessons_card.dart';
 import 'package:bumn_muda/card/lessons.dart';
 
+import '../../card/soal_card.dart';
+import '../../card/tryout_card.dart';
+import '../../card/video_card.dart';
+import '../../data/ujian.dart';
+
 class LessonsScreen extends StatefulWidget {
-  const LessonsScreen({Key? key}) : super(key: key);
+
+  final List<Exam> listExam;
+
+  const LessonsScreen({Key? key, required this.listExam}) : super(key: key);
 
   @override
   State<LessonsScreen> createState() => _LessonsScreenState();
@@ -57,18 +65,45 @@ class _LessonsScreenState extends State<LessonsScreen> {
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: products.length,
+                itemCount: widget.listExam.length,
                 itemBuilder: (context, index) {
+                  final item = widget.listExam[index];
+                  Widget card;
+
+                  if (item.jenis == 'exam') {
+                    card = TryoutCard(
+                      nomer: "",
+                      judul: item.name,
+                      waktu: "",
+                    );
+                  } else {
+                    switch (item.typeCourse) {
+                      case 'videos    ':
+                        card = TryoutCard(
+                          nomer: "",
+                          judul: item.name,
+                          waktu: "",
+                        );
+                        break;
+                      case 'file pdf':
+                        card = SoalCard(
+                          nomer: "",
+                          judul: item.name,
+                          waktu: "",
+                        );
+                        break;
+                      default:
+                        card = Container(); // Optional: Handle unknown types
+                        break;
+                    }
+                  }
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: LessonsCard(
-                      nomer: products[index].nomer,
-                      judul: products[index].judul,
-                      waktu: products[index].waktu,
-                    ),
+                    child: card,
                   );
                 },
-              ),
+              )
             ),
             SizedBox(height: 10),
             Container(

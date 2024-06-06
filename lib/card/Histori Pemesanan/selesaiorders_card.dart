@@ -10,7 +10,7 @@ class SelesaiOrdersCard extends StatelessWidget {
   final DateTime? tanggal;
   final String imageURL;
 
-  SelesaiOrdersCard({
+    SelesaiOrdersCard({
     required this.judul,
     required this.deskripsi,
     required this.tanggal,
@@ -48,12 +48,31 @@ class SelesaiOrdersCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 150,
-                height: 90,
+                width: 100,
+                height: 100,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: AssetImage(imageURL),fit: BoxFit.cover)
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                  ),
+                  child: Image.network(
+                    imageURL,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey,
+                        child: Center(
+                          child: Text('Error loading image'),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               SizedBox(width: 5,),

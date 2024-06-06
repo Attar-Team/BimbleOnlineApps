@@ -48,7 +48,7 @@ class _AboutScreenState extends State<AboutScreen> {
       print("TRANSACTION STATUS: ${result.transactionStatus}");
       print("TRANSACTION STATUS: ${result.transactionStatus}");
 
-      if (result.transactionStatus == TransactionResultStatus.pending) {
+      if (result.transactionStatus == TransactionResultStatus.settlement) {
         _showToast('Pembayaran Berhasil', false);
       } else if (result.isTransactionCanceled) {
         _showToast('Pembayaran Gagal', true);

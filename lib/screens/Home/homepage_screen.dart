@@ -63,14 +63,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
               children: [
                 Container(
                   width: double.infinity,
-                  height: 370,
+                  height: 330,
                   child: SingleChildScrollView(
                     physics: NeverScrollableScrollPhysics(),
                     child: Stack(
                       children: [
                         Container(
                           width: double.infinity,
-                          height: 300,
+                          height: 270,
                           decoration: const BoxDecoration(
                               gradient: LinearGradient(
                                 begin: Alignment.centerRight,
@@ -88,7 +88,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 60,),
+                              SizedBox(height: 30,),
                               Text(
                                 'Hi, Rahmat',
                                 style: TextStyle(
@@ -429,7 +429,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   productName: package.name,
                                   productType: package.type, 
                                   productDesc: package.description, 
-                                  listExam: package.listPackage,
+                                  listExam: package.exam,
                                   price: int.parse(package.price),
                                   discount: int.parse(package.discount),
                                   imageURL: package.photo
@@ -440,7 +440,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0), // Padding antara setiap card
                             child: ProductCard(
-                              imageURL: 'http://127.0.0.1:8000/${package.photo}',
+                              imageURL: package.photo,
                               name: package.name,
                               description: package.description,
                               price: int.parse(package.price),

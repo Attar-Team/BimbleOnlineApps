@@ -1,3 +1,4 @@
+import 'package:bumn_muda/data/paket.dart';
 import 'package:bumn_muda/screens/Paketku/detail_paketku.dart';
 import 'package:flutter/material.dart';
 import 'package:bumn_muda/card/paketku_card.dart';
@@ -6,7 +7,9 @@ import '../../data/paket_terbeli.dart';
 import 'package:lottie/lottie.dart';
 
 class PaketScreen extends StatefulWidget {
-  const PaketScreen({super.key});
+  final List<PaketTerbeli> paketTerbeli;
+  final List<Package> listPaket;
+  const PaketScreen({Key? key, required this.paketTerbeli, required this.listPaket}) : super(key: key);
 
   @override
   State<PaketScreen> createState() => _PaketScreenState();
@@ -51,7 +54,7 @@ class _PaketScreenState extends State<PaketScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: 50,
+                height: 20,
               ),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
@@ -89,7 +92,7 @@ class _PaketScreenState extends State<PaketScreen> {
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount:
-                      (products.length / 2).ceil(), // Menentukan jumlah baris
+                      (widget.paketTerbeli.length / 2).ceil(), // Menentukan jumlah baris
                   itemBuilder: (context, index) {
                     return Row(
                       children: [
@@ -101,20 +104,44 @@ class _PaketScreenState extends State<PaketScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailPaketku(productName: products[index * 2].title,),
+                                    builder: (context) => DetailPaketku(productName: widget.listPaket
+                                        .where((paket) =>
+                                    paket.id.toString() ==
+                                        widget.paketTerbeli[index * 2]
+                                            .packageId)
+                                        .first
+                                        .name),
                                   ),
                                 );
                               },
                               child: PaketkuCard(
-                                imageURL: products[index * 2].imageURL,
-                                name: products[index * 2].title,
-                                description: products[index * 2].description,
+                                imageURL: widget.listPaket
+                                      .where((paket) =>
+                                          paket.id.toString() ==
+                                          widget.paketTerbeli[index * 2]
+                                              .packageId)
+                                      .first
+                                      .photo,
+                                name: widget.listPaket
+                                    .where((paket) =>
+                                paket.id.toString() ==
+                                    widget.paketTerbeli[index * 2]
+                                        .packageId)
+                                    .first
+                                    .name,
+                                description: widget.listPaket
+                                    .where((paket) =>
+                                paket.id.toString() ==
+                                    widget.paketTerbeli[index * 2]
+                                        .packageId)
+                                    .first
+                                    .description,
                                 progress: products[index * 2].progress,
                               ),
                             ),
                           ),
                         ),
-                        if ((index * 2 + 1) < products.length)
+                        if ((index * 2 + 1) < widget.paketTerbeli.length)
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -123,14 +150,38 @@ class _PaketScreenState extends State<PaketScreen> {
                                   Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailPaketku(productName: products[index * 2 + 1].title),
+                                    builder: (context) => DetailPaketku(productName: widget.listPaket
+                                        .where((paket) =>
+                                    paket.id.toString() ==
+                                        widget.paketTerbeli[index * 2 + 1]
+                                            .packageId)
+                                        .first
+                                        .name),
                                   ),
                                 );
                                 },
                                 child: PaketkuCard(
-                                  imageURL: products[index * 2 + 1].imageURL,
-                                  name: products[index * 2 + 1].title,
-                                  description: products[index * 2 + 1].description,
+                                  imageURL: widget.listPaket
+                                          .where((paket) =>
+                                      paket.id.toString() ==
+                                          widget.paketTerbeli[index * 2 + 1]
+                                              .packageId)
+                                          .first
+                                          .photo,
+                                  name: widget.listPaket
+                                      .where((paket) =>
+                                  paket.id.toString() ==
+                                      widget.paketTerbeli[index * 2 + 1]
+                                          .packageId)
+                                      .first
+                                      .name,
+                                  description: widget.listPaket
+                                      .where((paket) =>
+                                  paket.id.toString() ==
+                                      widget.paketTerbeli[index * 2 + 1]
+                                          .packageId)
+                                      .first
+                                      .description,
                                   progress: products[index * 2 + 1].progress,
                                 ),
                               ),

@@ -1,42 +1,34 @@
 class Exam {
   final int id;
-  final int courseId;
+  final int idDetail;
+  final String jenis;
   final String name;
-  final bool isReview;
-  final String amountAccess;
+  final String? typeCourse;
+  final String? url;
+  final String? isReview;
+  final String? amountAcces;
 
   Exam({
     required this.id,
-    required this.courseId,
+    required this.idDetail,
+    required this.jenis,
     required this.name,
-    required this.isReview,
-    required this.amountAccess,
+    this.typeCourse,
+    this.url,
+    this.isReview,
+    this.amountAcces,
   });
-
-  @override
-  String toString() {
-    return 'Exam{id: $id, courseId: $courseId, name: $name, isReview: $isReview, amountAccess: $amountAccess}';
-  }
 
   factory Exam.fromJson(Map<String, dynamic> json) {
     return Exam(
-      id: json['id'] ?? 0, // Gunakan nilai default jika null
-      courseId: json['id_course'] ?? 0, // Gunakan nilai default jika null
-      name: json['name'] ?? '', // Gunakan nilai default jika null
-      isReview: json['is_review'] == "1", // Konversi ke boolean seperti sebelumnya
-      amountAccess: json['amount_acces'] ?? '', // Gunakan nilai default jika null
+      id: json['id'],
+      idDetail: json['id_detail'],
+      jenis: json['jenis'],
+      name: json['name'],
+      typeCourse: json['type_course'],
+      url: json['url'],
+      isReview: json['is_review'],
+      amountAcces: json['amount_acces'],
     );
   }
-
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'id_course': courseId,
-      'name': name,
-      'is_review': isReview ? "1" : "0", // Mengubah boolean ke string "1" atau "0"
-      'amount_acces': amountAccess,
-    };
-  }
 }
-

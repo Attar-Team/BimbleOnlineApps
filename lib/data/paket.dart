@@ -10,7 +10,7 @@ class Package {
   final String discount;
   final String description;
   final String photo;
-  final List<Exam> listPackage;
+  final List<Exam> exam;
 
   Package({
     required this.id,
@@ -21,17 +21,12 @@ class Package {
     required this.discount,
     required this.description,
     required this.photo,
-    required this.listPackage,
+    required this.exam,
   });
 
-  @override
-  String toString() {
-    return 'Package{id: $id, name: $name, type: $type, category: $category, price: $price, discount: $discount, description: $description, photo: $photo, listPackage: $listPackage}';
-  }
-
   factory Package.fromJson(Map<String, dynamic> json) {
-    var listPackageJson = json['list_package'] as List;
-    List<Exam> listPackage = listPackageJson.map((i) => Exam.fromJson(i)).toList();
+    var list = json['list_package'] as List;
+    List<Exam> ExamList = list.map((i) => Exam.fromJson(i)).toList();
 
     return Package(
       id: json['id'],
@@ -42,22 +37,7 @@ class Package {
       discount: json['discount'],
       description: json['description'],
       photo: json['photo'],
-      listPackage: listPackage,
+      exam: ExamList,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'type': type,
-      'category': category,
-      'price': price,
-      'discount': discount,
-      'description': description,
-      'photo': photo,
-      'list_package': listPackage.map((e) => e.toJson()).toList(),
-    };
-  }
-
 }

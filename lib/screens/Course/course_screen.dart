@@ -300,7 +300,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                       productType: packages[index * 2].type,
                                       productDesc:
                                           packages[index * 2].description,
-                                      listExam: packages[index * 2].listPackage,
+                                      listExam: packages[index * 2].exam,
                                       price: int.parse(packages[index * 2].price),
                                       discount: int.parse(packages[index * 2].discount),
                                       imageURL: packages[index * 2].photo,
@@ -336,7 +336,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                         productDesc:
                                             packages[index * 2 + 1].description,
                                         listExam:
-                                            packages[index * 2 + 1].listPackage,
+                                            packages[index * 2 + 1].exam,
                                         price: 
                                             int.parse(packages[index * 2 + 1].price),
                                         discount: 

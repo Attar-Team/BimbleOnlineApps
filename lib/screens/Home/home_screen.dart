@@ -165,97 +165,99 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<void>(
-        future: fetchAllDataFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            printError(snapshot.error.toString());
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            List<Widget> _widgetOptions = <Widget>[
-              HomePageScreen(packages: list_packages),
-              PaketScreen(),
-              PembelianPageScreen(historiPemesanan: historiPemesanan, list_paket: list_packages),
-              AkunPageScreen(),
-            ];
-
-            return IndexedStack(
-              index: _selectedIndex,
-              children: _widgetOptions,
-            );
-          }
-        },
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
-            )
-          ],
+    return SafeArea(
+      child: Scaffold(
+        body: FutureBuilder<void>(
+          future: fetchAllDataFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              printError(snapshot.error.toString());
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              List<Widget> _widgetOptions = <Widget>[
+                HomePageScreen(packages: list_packages),
+                PaketScreen(paketTerbeli: paketTerbeli, listPaket: list_packages,),
+                PembelianPageScreen(historiPemesanan: historiPemesanan, list_paket: list_packages),
+                AkunPageScreen(),
+              ];
+      
+              return IndexedStack(
+                index: _selectedIndex,
+                children: _widgetOptions,
+              );
+            }
+          },
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
-          child: GNav(
-            backgroundColor: Colors.transparent,
-            color: Colors.black,
-            activeColor: Colors.white,
-            tabBackgroundColor: Color(0xff2E3D64),
-            padding: EdgeInsets.all(16),
-            gap: 8,
-            tabs: [
-              GButton(
-                icon: LineIcons.home,
-                text: 'Home',
-                textStyle: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-                onPressed: () => _onItemTapped(0),
-              ),
-              GButton(
-                icon: LineIcons.book,
-                text: 'Paket',
-                textStyle: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-                onPressed: () => _onItemTapped(1),
-              ),
-              GButton(
-                icon: LineIcons.shoppingCart,
-                text: 'Pembelian',
-                textStyle: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-                onPressed: () => _onItemTapped(2),
-              ),
-              GButton(
-                icon: LineIcons.user,
-                text: 'Akun',
-                textStyle: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-                onPressed: () => _onItemTapped(3),
-              ),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(30.0),
+              topRight: Radius.circular(30.0),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3),
+              )
             ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+            child: GNav(
+              backgroundColor: Colors.transparent,
+              color: Colors.black,
+              activeColor: Colors.white,
+              tabBackgroundColor: Color(0xff2E3D64),
+              padding: EdgeInsets.all(16),
+              gap: 8,
+              tabs: [
+                GButton(
+                  icon: LineIcons.home,
+                  text: 'Home',
+                  textStyle: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => _onItemTapped(0),
+                ),
+                GButton(
+                  icon: LineIcons.book,
+                  text: 'Paket',
+                  textStyle: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => _onItemTapped(1),
+                ),
+                GButton(
+                  icon: LineIcons.shoppingCart,
+                  text: 'Pembelian',
+                  textStyle: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => _onItemTapped(2),
+                ),
+                GButton(
+                  icon: LineIcons.user,
+                  text: 'Akun',
+                  textStyle: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => _onItemTapped(3),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -34,11 +34,32 @@ class _DetailPaketState extends State<DetailPaket> {
                 Container(
                   width: double.infinity,
                   height: 240,
-                  child: Image(
-                    image: AssetImage(widget.imageURL),
-                    fit: BoxFit.cover,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                    ),
                   ),
-                ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                    ),
+                    child: Image.network(
+                      "https://bimbel.adzazarif.my.id/storage/${widget.imageURL}",
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey,
+                          child: Center(
+                            child: Text(error.toString()),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+                ,
                 Positioned(
                   top: 40,
                   left: 10,
@@ -162,7 +183,7 @@ class _DetailPaketState extends State<DetailPaket> {
                                 price: widget.price,
                                 discount: widget.discount,
                               ),
-                              LessonsScreen(),
+                              LessonsScreen(listExam: widget.listExam,),
                             ],
                           ),
                         ),
