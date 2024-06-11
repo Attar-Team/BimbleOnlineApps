@@ -310,7 +310,7 @@ class _CourseScreenState extends State<CourseScreen> {
                               },
                               child: ProductCard(
                                 imageURL:
-                                    'http://bimbel.adzazarif.my.id/${packages[index * 2].photo}',
+                                    packages[index * 2].photo,
                                 name: packages[index * 2].name,
                                 description: packages[index * 2].description,
                                 price: int.parse(packages[index * 2].price),
@@ -349,7 +349,7 @@ class _CourseScreenState extends State<CourseScreen> {
                                 },
                                 child: ProductCard(
                                   imageURL:
-                                      'http://bimbel.adzazarif.my.id/${packages[index * 2 + 1].photo}',
+                                      packages[index * 2 + 1].photo,
                                   name: packages[index * 2 + 1].name,
                                   description:
                                       packages[index * 2 + 1].description,

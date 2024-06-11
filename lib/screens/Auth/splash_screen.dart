@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '../../data/user.dart';
 import '../Home/home_screen.dart';
 import 'dart:convert';
+import '../../services/user_shared_prev.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,24 +19,35 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
 
+  bool isLoggedIn = false;
+
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-
-    _loginAndNavigate();
+    _initialize();
   }
 
-  @override
-  void dispose() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: SystemUiOverlay.values);
-    super.dispose();
+  void _initialize() async {
+    bool isLoggedIn = await UserPreferences.getLoginStatus();
+    UserData? userdata = await UserPreferences.getUser();
+    print("Login Status : $isLoggedIn");
+    print("User Data : ${userdata?.toJson()}");
+    if (isLoggedIn && userdata != null) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => HomeScreen(user: userdata,),
+      ));
+    } else {
+      // Navigate to LoginScreen if not logged in
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => const LoginScreen(),
+      ));
+    }
   }
 
   Future<void> _loginAndNavigate() async {
-
-    UserData user_data = UserData(id: 12,
+    UserData user_data = UserData(
+      id: 12,
       socialId: null,
       name: "Budi Kopling",
       email: "budikopling@gmail.com",
@@ -44,7 +56,8 @@ class _SplashScreenState extends State<SplashScreen>
       emailVerifiedAt: null,
       createdAt: DateTime(2024, 6, 1, 18, 53, 17),
       updatedAt: DateTime(2024, 6, 1, 18, 53, 17),
-      role: "user",);
+      role: "user",
+    );
 
     try {
       LoginResponse login_response = await postFormData("admin@gmail.com", "12345");
@@ -52,11 +65,12 @@ class _SplashScreenState extends State<SplashScreen>
       // Simulate a delay for the splash screen
       await Future.delayed(Duration(seconds: 2));
 
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      FirebaseAuth.instance.authStateChanges().listen((User? user) async {
         if (user != null) {
+          await UserPreferences.saveLoginStatus(true);
           // Jika pengguna telah login, arahkan ke layar beranda atau layar utama
           Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => HomeScreen(user: user_data,),
+            builder: (_) => HomeScreen(user: user_data),
           ));
         } else {
           // Jika pengguna belum login, arahkan ke layar login
@@ -101,6 +115,12 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

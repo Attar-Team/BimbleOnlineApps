@@ -51,14 +51,43 @@ class ProgressCard extends StatelessWidget {
             child: Container(
               width: double.infinity,
               height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      "https://bimbel.adzazarif.my.id/storage/$imageURL",
+                    ),
+                    fit: BoxFit.cover,
+                    onError: (exception, stackTrace) {
+                      // You can't directly handle error here, so you need to use a fallback mechanism
+                    },
+                  ),
                 ),
-                image: DecorationImage(
-                  image: AssetImage(imageURL), fit: BoxFit.cover)
-              ),
+                child: Image.network(
+                  "https://bimbel.adzazarif.my.id/storage/$imageURL",
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey,
+                      child: Center(
+                        child: Text('Error loading image'),
+                      ),
+                    );
+                  },
+                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  },
+                ),
             ),
           ),
           Container(

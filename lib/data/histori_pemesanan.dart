@@ -1,51 +1,41 @@
-class HistoriPemesanan {
-  final int id;
-  final String orderId;
-  final String packageId;
-  final String createdAt;
-  final String updatedAt;
-  final String userId;
-  final String date;
+class   HistoriPemesanan {
+  final String id;
+  final int userId;
+  final DateTime date;
   final String grossAmount;
   final String status;
+  final List<String> packageIds;
 
   HistoriPemesanan({
     required this.id,
-    required this.orderId,
-    required this.packageId,
-    required this.createdAt,
-    required this.updatedAt,
     required this.userId,
     required this.date,
     required this.grossAmount,
     required this.status,
+    required this.packageIds,
   });
 
+  // Factory method to create an instance of HistoriPemesanan from a JSON map
   factory HistoriPemesanan.fromJson(Map<String, dynamic> json) {
     return HistoriPemesanan(
-      id: json['id'] ?? 0, // Default value if null
-      orderId: json['order_id'] ?? '', // Default value if null
-      packageId: json['package_id'] ?? '', // Default value if null
-      createdAt: json['created_at'] ?? '', // Default value if null
-      updatedAt: json['updated_at'] ?? '', // Default value if null
-      userId: json['user_id'] ?? '', // Default value if null
-      date: json['date'] ?? '', // Default value if null
-      grossAmount: json['gross_amount'] ?? '', // Default value if null
-      status: json['status'] ?? '', // Default value if null
+      id: json['id'],
+      userId: json['user_id'],
+      date: DateTime.parse(json['date']),
+      grossAmount: json['gross_amount'],
+      status: json['status'],
+      packageIds: List<String>.from(json['package_id']),
     );
   }
 
+  // Method to convert an instance of HistoriPemesanan to a JSON map
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'order_id': orderId,
-      'package_id': packageId,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
       'user_id': userId,
-      'date': date,
+      'date': date.toIso8601String(),
       'gross_amount': grossAmount,
       'status': status,
+      'package_id': packageIds,
     };
   }
 }

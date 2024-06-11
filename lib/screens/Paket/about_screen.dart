@@ -77,48 +77,6 @@ class _AboutScreenState extends State<AboutScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text(
-                'Mentor',
-                style: TextStyle(
-                    fontFamily: 'Urbanist',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Colors.black),
-              ),
-              SizedBox(height: 5,),
-              const Row(
-                children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage(
-                        'images/asyam.jpg'), 
-                  ),
-                  SizedBox(width: 10,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Admin',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
-                        ),
-                      ),
-                      Text(
-                        'Pelatih BUMN, CPNS',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
               const SizedBox(height: 15,),
               const Text(
                 'About Courses',

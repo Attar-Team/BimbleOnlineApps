@@ -92,112 +92,124 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void SignUp() {
+    // Menampilkan dialog loading
     showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
 
+    // Memastikan password dan konfirmasi password sesuai
     if (passwordController.text == confirmPasswordController.text) {
-      FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text)
-          .then((value) async {
+      // Memanggil fungsi registerUser untuk mendaftarkan pengguna
+      registerUser(
+        name: nameController.text,
+        email: emailController.text,
+        noTelp: phoneController.text,
+        image: _image,
+        role: "user",
+        password: passwordController.text,
+      ).then((value) async {
         print("User created");
 
         try {
-          await Future.wait([
-            registerUser(
-                name: nameController.text,
-                email: emailController.text,
-                noTelp: phoneController.text,
-                image: _image,
-                role: "user",
-                password: passwordController.text),
-            addDatatoDatabase(),
-          ]);
-
+          // Menghapus dialog loading
           Navigator.pop(context);
 
+          // Menampilkan dialog sukses registrasi
           showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('Register Successful'),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Login2Screen()));
-                        },
-                        child: const Text('OK'))
-                  ],
-                );
-              });
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Register Successful'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Login2Screen(),
+                        ),
+                      );
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
         } catch (e) {
+          // Menangani kesalahan dan menampilkan pesan error
           print("Error: $e");
           Navigator.pop(context);
           showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: const Text('Register Failed'),
-                  content: Text(e.toString()),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('OK'))
-                  ],
-                );
-              });
-        }
-      }).onError((error, stackTrace) {
-        print("Error ${error.toString()}");
-        Navigator.pop(context);
-        showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
                 title: const Text('Register Failed'),
-                content: Text(error.toString()),
+                content: Text(e.toString()),
                 actions: [
                   TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('OK'))
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('OK'),
+                  ),
                 ],
               );
-            });
-      });
-    } else {
-      Navigator.pop(context);
-      print("Password doesn't match");
-      showDialog(
+            },
+          );
+        }
+      }).catchError((error) {
+        // Menangani kesalahan saat pendaftaran pengguna
+        print("Error ${error.toString()}");
+        Navigator.pop(context);
+        showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
               title: const Text('Register Failed'),
-              content: const Text("Password doesn't match"),
+              content: Text(error.toString()),
               actions: [
                 TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('OK'))
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
               ],
             );
-          });
+          },
+        );
+      });
+    } else {
+      // Menangani kesalahan jika password tidak sesuai
+      Navigator.pop(context);
+      print("Password doesn't match");
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Register Failed'),
+            content: const Text("Password doesn't match"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
+
 
 
   final ImagePicker _picker = ImagePicker();

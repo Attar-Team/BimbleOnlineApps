@@ -3,13 +3,17 @@ import 'package:bumn_muda/card/unduhpdf_card.dart';
 import 'package:flutter/material.dart';
 
 class FreeBankScreen extends StatefulWidget {
-  const FreeBankScreen({super.key});
+
+  final String urlPdf;
+
+  const FreeBankScreen({super.key, required this.urlPdf});
 
   @override
   State<FreeBankScreen> createState() => _FreeBankScreenState();
 }
 
 class _FreeBankScreenState extends State<FreeBankScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,12 +82,12 @@ class _FreeBankScreenState extends State<FreeBankScreen> {
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: products.length,
+                itemCount: 1,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: UnduhPDFCard(
-                      namaFile: products[index].namaFile,
+                      namaFile: widget.urlPdf,
                       halaman: products[index].halaman,
                     ),
                   );

@@ -48,14 +48,14 @@ class PaketkuCard extends StatelessWidget {
                   Container(
                     width: 200,
                     height: 100,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5),
                       ),
                     ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(5),
                         topRight: Radius.circular(5),
                       ),

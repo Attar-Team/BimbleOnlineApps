@@ -1,9 +1,14 @@
+import 'package:bumn_muda/card/histori_pembelian_paket_card.dart';
+import 'package:bumn_muda/data/histori_pemesanan.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/paket.dart';
+
 class DetailOrders extends StatefulWidget {
-  final String judulPaket;
-  
-  const DetailOrders({required this.judulPaket});
+  final HistoriPemesanan histori;
+  final List<Package> list_package;
+
+  const DetailOrders({Key? key, required this.histori, required this.list_package}) : super(key: key);
 
   @override
   State<DetailOrders> createState() => _DetailOrdersState();
@@ -64,16 +69,16 @@ class _DetailOrdersState extends State<DetailOrders> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      id,
-                      style: TextStyle(
+                      "${widget.histori.id}",
+                      style: const TextStyle(
                           fontFamily: "Urbanist",
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                           color: Colors.black),
                     ),
                     Text(
-                      _formatDate(tanggal),
-                      style: TextStyle(
+                      _formatDate(widget.histori.date),
+                      style: const TextStyle(
                           fontFamily: 'Urbanist',
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -84,7 +89,7 @@ class _DetailOrdersState extends State<DetailOrders> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Status',
                       style: TextStyle(
                           fontFamily: "Urbanist",
@@ -94,7 +99,7 @@ class _DetailOrdersState extends State<DetailOrders> {
                     ),
                     Text(
                       status,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: 'Urbanist',
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -104,7 +109,7 @@ class _DetailOrdersState extends State<DetailOrders> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
@@ -113,7 +118,7 @@ class _DetailOrdersState extends State<DetailOrders> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Metode Pembayaran',
                       style: TextStyle(
                           fontFamily: "Urbanist",
@@ -123,7 +128,7 @@ class _DetailOrdersState extends State<DetailOrders> {
                     ),
                     Text(
                       paymentMethode,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: 'Urbanist',
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -134,8 +139,8 @@ class _DetailOrdersState extends State<DetailOrders> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Dipesan Oleh',
+                    const Text(
+                      'Total Harga',
                       style: TextStyle(
                           fontFamily: "Urbanist",
                           fontSize: 15,
@@ -143,8 +148,8 @@ class _DetailOrdersState extends State<DetailOrders> {
                           color: Colors.black),
                     ),
                     Text(
-                      status,
-                      style: TextStyle(
+                      "Rp. ${widget.histori.grossAmount},00",
+                      style: const TextStyle(
                           fontFamily: 'Urbanist',
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -154,18 +159,18 @@ class _DetailOrdersState extends State<DetailOrders> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Divider(
+            const Divider(
               // Garis paling bawah
               color: Colors.grey,
               thickness: 1,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               'Paket Pembelian',
               style: TextStyle(
                   fontFamily: 'Urbanist',
@@ -174,88 +179,16 @@ class _DetailOrdersState extends State<DetailOrders> {
                   fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 10,),
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 180,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: AssetImage(imageURL))
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(width: 5,),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.judulPaket,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(height: 10,),
-                      Text(
-                        deskripsiPaket,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black
-                        ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Divider(
-              // Garis paling bawah
-              color: Colors.grey,
-              thickness: 1,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Harga Paket',
-                  style: TextStyle(
-                    fontFamily: 'Urbanist',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Colors.grey
-                  ),
-                ),
-                Text(
-                  'Rp$harga,00',
-                  style: TextStyle(
-                    fontFamily: 'Urbanist',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Colors.green
-                  ),
-                ),
-              ],
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: widget.histori.packageIds.length,
+              itemBuilder: (context, index) {
+                return HistoriPembelianPaketCard(
+                  imageURL: 'https://bimbel.adzazarif.my.id/storage/${widget.list_package.where((element) => element.id.toString() == widget.histori.packageIds[index]).first.photo}',
+                  harga: widget.list_package.where((element) => element.id.toString() == widget.histori.packageIds[index]).first.price.toString(),
+                  deskripsiPaket: widget.list_package.where((element) => element.id.toString() == widget.histori.packageIds[index]).first.description.toString(),
+                );
+              },
             ),
             SizedBox(height: 20,),
             Container(
@@ -264,7 +197,7 @@ class _DetailOrdersState extends State<DetailOrders> {
                 color: Color(0xffE9EFFF),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(

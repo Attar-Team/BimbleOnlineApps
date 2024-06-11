@@ -113,7 +113,7 @@ class SelesaiOrdersCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             color: Color(0xff2E3D64),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Sertifikat',
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -127,11 +127,6 @@ class SelesaiOrdersCard extends StatelessWidget {
                       SizedBox(width: 5,),
                       GestureDetector(
                         onTap: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      DetailOrders(judulPaket: judul)));
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -143,7 +138,7 @@ class SelesaiOrdersCard extends StatelessWidget {
                               color: Color(0xff2E3D64)
                             )
                           ),
-                          child: Text(
+                          child: const Text(
                             'Detail Order',
                             style: TextStyle(
                               fontFamily: 'Poppins',

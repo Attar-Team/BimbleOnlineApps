@@ -12,6 +12,7 @@ import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
+import '../../services/user_shared_prev.dart';
 
 class Login2Screen extends StatefulWidget {
   const Login2Screen({super.key});
@@ -29,7 +30,7 @@ class _Login2ScreenState extends State<Login2Screen> {
     print("$tag : $data");
   }
 
-  void _loginAndNavigate() async {
+  void _loginAndNavigate(BuildContext context, TextEditingController emailController, TextEditingController passwordController) async {
     // Menampilkan dialog loading
     showDialog(
       context: context,
@@ -51,50 +52,35 @@ class _Login2ScreenState extends State<Login2Screen> {
     );
 
     try {
-      // Langkah 1: Sign in dengan Firebase Auth
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-
-      // Langkah 2: Panggil postData
+      // Panggil postData
       LoginResponse response = await postData(emailController.text.trim(), passwordController.text.trim());
 
+      print("Response: ${response.status} - ${response.data.token}");
+
       if (response.status == true && response.data.token != null) {
-        // Langkah 3: Jika kedua langkah berhasil, jalankan fungsi get user
+        // Jika postData berhasil, jalankan fungsi getData
+        UserResponse userResponse = await getData("http://bimbel.adzazarif.my.id/api/user", response.data.token);
 
-        UserResponse user_response = await getData( "http://bimbel.adzazarif.my.id/api/user", response.data.token);
+        print("User Response: ${userResponse.data.name}");
 
-        if(user_response.status == 200){
+        if (userResponse.status == 200) {
           Navigator.pop(context); // Menutup dialog loading
+          await UserPreferences.saveLoginStatus(true);
+          await UserPreferences.saveUser(userResponse.data);
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => HomeScreen(user: user_response.data ,)),
+            MaterialPageRoute(builder: (context) => HomeScreen(user: userResponse.data)),
           );
         } else {
           Navigator.pop(context); // Menutup dialog loading
           invalidLogin();
-          print('Login failed: ${user_response.message}');
-
+          print('Login failed: ${userResponse.message}');
         }
       } else {
         // Jika postData gagal
         Navigator.pop(context); // Menutup dialog loading
         invalidLogin();
         print('Login failed: ${response.message}');
-      }
-    } on FirebaseAuthException catch (e) {
-      // Jika sign in dengan Firebase Auth gagal
-      Navigator.pop(context); // Menutup dialog loading
-      if (e.code == 'user-not-found') {
-        invalidLogin();
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        invalidLogin();
-        print('Wrong password provided for that user.');
-      } else {
-        invalidLogin();
-        print('Error: ${e.code}');
       }
     } catch (e) {
       // Menangani kesalahan tak terduga lainnya
@@ -104,6 +90,7 @@ class _Login2ScreenState extends State<Login2Screen> {
     }
   }
 
+
   Future<UserResponse> getData(String url, String token) async {
     final response = await http.get(
       Uri.parse(url),
@@ -112,6 +99,8 @@ class _Login2ScreenState extends State<Login2Screen> {
 
     if (response.statusCode == 200) {
       final jsonBody = jsonDecode(response.body) as Map<String, dynamic>;
+      print("Data ada");
+      print(UserResponse.fromJson(jsonBody).status);
       return UserResponse.fromJson(jsonBody);
     } else {
       throw Exception('Failed to get data: ${response.statusCode}');
@@ -400,7 +389,7 @@ class _Login2ScreenState extends State<Login2Screen> {
             String email = emailController.text;
             String password = passwordController.text;
             logData("Login Data", "$email, $password");
-            _loginAndNavigate();
+            _loginAndNavigate(context, emailController, passwordController);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xff2E3D64), // Warna latar belakang tombol

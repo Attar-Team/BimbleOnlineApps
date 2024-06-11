@@ -36,7 +36,7 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text(
+                child: const Text(
                   '*Berikut paket yang masih kamu belum kerjakan, selesaikan pekerjaanmu dan dapatkan sertifikatnya',
                   style: TextStyle(
                     fontFamily: 'Urbanist',
@@ -53,17 +53,11 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
                 itemCount: widget.data.length,
                 itemBuilder: (context, index) {
                   return ActiveOrdersCard(
-                    judul: widget.dataPaket.where((element) => element.id.toString() == widget.data[index].packageId).first.name,
-                    deskripsi: widget.dataPaket.where((element) => element.id.toString() == widget.data[index].packageId).first.description,
-                    tanggal: DateTime.tryParse(widget.data[index].createdAt),
-                    imageURL: "http://bimbel.adzazarif.my.id/storage/${
-                      widget.dataPaket
-                          .where((element) =>
-                              element.id.toString() ==
-                              widget.data[index].packageId)
-                          .first
-                          .photo
-                    }",
+                    judul: "",
+                    deskripsi: "",
+                    tanggal: widget.data[index].date,
+                    imageURL: "",
+                    list_paket: widget.dataPaket, history: widget.data[index],
                   );
                 },
               ),

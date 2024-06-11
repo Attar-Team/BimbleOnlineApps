@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bumn_muda/screens/Course/course_screen.dart';
 import 'package:bumn_muda/screens/Home/paket_screen.dart';
 import 'package:bumn_muda/screens/Paket/detail_paket.dart';
@@ -10,14 +12,14 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:bumn_muda/card/product_card.dart';
 import 'package:bumn_muda/card/product.dart';
 import 'package:lottie/lottie.dart';
+import 'package:http/http.dart' as http;
 
 import '../../data/paket.dart';
+import '../../data/response/paket_response.dart';
 
 class HomePageScreen extends StatefulWidget {
 
-  final List<Package> packages;
-
-  const HomePageScreen({Key? key, required this.packages}) : super(key: key);
+  const HomePageScreen({Key? key}) : super(key: key);
 
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
@@ -27,6 +29,7 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   ScrollController _scrollController = ScrollController();
   int selectedIndex = 0;
+  List<Package> list_packages = [];
 
   void handleContainerTap(int index) {
     setState(() {
@@ -37,7 +40,57 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     super.initState();
-    print("Home Page Packages : ${widget.packages.length}");
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      fetchPackagesAndSet();
+    });
+  }
+
+  Future<void> fetchPackagesAndSet() async {
+    showLoadingDialog(context);
+    try {
+      final apiResponse = await fetchPackages();
+      if (!mounted) return; // Check if the state is still mounted
+      setState(() {
+        list_packages = apiResponse.data; // Assuming ApiResponse contains a List<Package> named 'data'
+      });
+      print("Home Page Packages : ${list_packages.length}");
+    } catch (e) {
+      print('Failed to load packages: $e');
+    } finally {
+      Navigator.of(context).pop(); // Close the loading dialog
+    }
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Lottie.asset(
+              'assets/animations/book_anim.json',
+              width: 200,
+              height: 200,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  Future<ApiResponse> fetchPackages() async {
+    final response = await http.get(Uri.parse('http://bimbel.adzazarif.my.id/api/package'));
+
+    if (response.statusCode == 200) {
+      return ApiResponse.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load packages');
+    }
   }
 
   @override
@@ -419,7 +472,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(),
                     child: Row(
-                      children: widget.packages.map((package) {
+                      children: list_packages.map((package) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(

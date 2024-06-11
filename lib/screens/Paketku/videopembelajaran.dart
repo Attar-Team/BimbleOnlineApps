@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPembelajaran extends StatefulWidget {
-  final String videoId = 'XZxvpf9-RTU';
-  const VideoPembelajaran({super.key});
+  final String videoId;
+  const VideoPembelajaran({super.key, required this.videoId});
 
   @override
   State<VideoPembelajaran> createState() => _VideoPembelajaranState();
@@ -153,7 +153,7 @@ class _VideoPembelajaranState extends State<VideoPembelajaran> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: products.length,
+                        itemCount: 1,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),

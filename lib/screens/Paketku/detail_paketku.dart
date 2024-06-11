@@ -6,15 +6,26 @@ import 'package:bumn_muda/screens/Paketku/tryout_screen.dart';
 import 'package:bumn_muda/screens/Paketku/videopembelajaran.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/paket.dart';
+
 class DetailPaketku extends StatefulWidget {
   final String productName;
-  const DetailPaketku({Key? key, required this.productName});
+  final Package dataPaket;
+  const DetailPaketku({Key? key, required this.productName, required this.dataPaket});
 
   @override
   State<DetailPaketku> createState() => _DetailPaketkuState();
 }
 
 class _DetailPaketkuState extends State<DetailPaketku> {
+
+  @override
+  void initState() {
+    super.initState();
+    print("Paket ID : ${widget.dataPaket.id}");
+    print("Paket Name : ${widget.productName}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,33 +81,33 @@ class _DetailPaketkuState extends State<DetailPaketku> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: products.length,
+                  itemCount: widget.dataPaket.exam.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: ProgressCard(
-                        imageURL: products[index].imageURL,
-                        judul: products[index].judul,
+                        imageURL: widget.dataPaket.photo,
+                        judul: widget.dataPaket.exam[index].name,
                         progress: products[index].progress,
                         percent: products[index].percent,
                         onPressed: (){
-                          if (products[index].judul == 'Video Pembelajaran') {
+                          if (widget.dataPaket.exam[index].jenis == 'exam') {
                             Navigator.push(
                               context, 
-                              MaterialPageRoute(builder: (context) => VideoPembelajaran()));
-                          } else if (products[index].judul == 'Try Out / Latihan Soal'){
+                              MaterialPageRoute(builder: (context) => TryOutScreen(data: widget.dataPaket.exam[index]),));
+                          } else if (widget.dataPaket.exam[index].typeCourse == 'videos'){
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TryOutScreen()));
-                          } else if (products[index].judul == 'Core Value BUMN'){
+                                builder: (context) => VideoPembelajaran(videoId: widget.dataPaket.exam[index].url.toString(),)));
+                          } else if (widget.dataPaket.exam[index].typeCourse == 'file pdf'){
                             Navigator.push(
                               context, 
-                              MaterialPageRoute(builder: (context) => CoreValueScreen()));
+                              MaterialPageRoute(builder: (context) => FreeBankScreen(urlPdf: widget.dataPaket.exam[index].url.toString(),)));
                           } else if (products[index].judul == 'Free Bank Soal'){
                             Navigator.push(
                               context, 
-                              MaterialPageRoute(builder: (context) => FreeBankScreen()));
+                              MaterialPageRoute(builder: (context) => CoreValueScreen()));
                           }
                         },
                       ),

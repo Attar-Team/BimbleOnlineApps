@@ -1,10 +1,16 @@
 import 'package:bumn_muda/screens/Quiz/quiz_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../card/histori_ujian.dart';
+import '../../data/ujian.dart';
+
 class DetailTryOut extends StatefulWidget {
   final String judulTryOut;
+  final String waktuTryout;
+  final int soal;
+  final Exam dataExam;
 
-  const DetailTryOut({required this.judulTryOut});
+  const DetailTryOut({required this.judulTryOut, required this.waktuTryout, Key? key, required this.soal, required this.dataExam}) : super(key: key);
 
   @override
   State<DetailTryOut> createState() => _DetailTryOutState();
@@ -81,16 +87,16 @@ class _DetailTryOutState extends State<DetailTryOut> {
                 color: Colors.black
               ),),
             SizedBox(height: 10,),
-            const Row(
+            Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.play_lesson,
                   color: Colors.black,
                   size: 18,),
                 SizedBox(width: 10,),
                 Text(
-                  '20 Soal',
-                  style: TextStyle(
+                  '${widget.soal} Soal',
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -100,16 +106,16 @@ class _DetailTryOutState extends State<DetailTryOut> {
               ],
             ),
             SizedBox(height: 5,),
-            const Row(
+            Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.timer,
                   color: Colors.black,
                   size: 18,),
                 SizedBox(width: 10,),
                 Text(
-                  '2 Jam',
-                  style: TextStyle(
+                  '${widget.waktuTryout} Menit',
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -138,122 +144,18 @@ class _DetailTryOutState extends State<DetailTryOut> {
               ],
             ),
             SizedBox(height: 10,),
-            Container(
-              width: double.infinity,
-              child: DataTable(
-                // sortColumnIndex: sortIndex,
-                // sortAscending: true,
-                columns: [
-                  DataColumn(label: Text('Deskripsi')),
-                  DataColumn(label: Text('Nilai')),
-                  DataColumn(label: Text('Action')),
-                ],
-                dataRowHeight: 90,
-                rows: tryoutItem.map((e) => DataRow(cells: [
-                  DataCell(
-                    e.selesai
-                      ? Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            child: Text(
-                              'Selesai',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white
-                              ),
-                            ),
-                            ),
-                            Text('Selesai pada : ${e.waktuSelesai.toString()}',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 10),)
-                          ],
-                        ),
-                      )
-                      :
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                            child: Text(
-                              'Belum Selesai',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white
-                              ),
-                            ),
-                          ),
-                          Text(e.waktuSelesai != null ? 'Selesai pada : ${e.waktuSelesai.toString()}' : '---',
-                            style: TextStyle(fontSize: 10),)
-                        ],
-                      ),
-                      ),
-                  DataCell(Text(e.nilai != null ? e.nilai.toString() : '---')),
-                  DataCell(
-                    e.selesai 
-                      ? GestureDetector(
-                        onTap: (){
-                          //PINDAH KE HALAMAN REVIEW PEMBAHASAN
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            'Pembahasan',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white
-                            ),
-                          ),
-                        ),
-                      )
-                      : GestureDetector(
-                        onTap: (){
-                          Navigator.push(
-                            context, 
-                            MaterialPageRoute(builder: (context) => QuizScreen()));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Color(0xff2E3D64),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            'Attempt Quiz',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white
-                            ),
-                          ),
-                        ),
-                      )
-                      
-                      )
-                  ])).toList()
+            SingleChildScrollView(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: tryoutItem.length,
+                itemBuilder: (context, index) {
+                  return HistoryCard(
+                    isCompleted: tryoutItem[index].selesai,
+                    score: tryoutItem[index].nilai,
+                    time: tryoutItem[index].waktuSelesai,
+                    duration: widget.waktuTryout,
+                  );
+                },
               ),
             )
           ],
