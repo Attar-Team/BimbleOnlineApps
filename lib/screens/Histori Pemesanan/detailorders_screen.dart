@@ -187,6 +187,7 @@ class _DetailOrdersState extends State<DetailOrders> {
                   imageURL: 'https://bimbel.adzazarif.my.id/storage/${widget.list_package.where((element) => element.id.toString() == widget.histori.packageIds[index]).first.photo}',
                   harga: widget.list_package.where((element) => element.id.toString() == widget.histori.packageIds[index]).first.price.toString(),
                   deskripsiPaket: widget.list_package.where((element) => element.id.toString() == widget.histori.packageIds[index]).first.description.toString(),
+                  judul: widget.list_package.where((element) => element.id.toString() == widget.histori.packageIds[index]).first.name.toString(),
                 );
               },
             ),

@@ -249,7 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               SizedBox(height: 0),
               const Padding(
-                padding: EdgeInsets.only(left: 30.0, top: 50.0),
+                padding: EdgeInsets.only(left: 30.0, top:0.0),
                 child: Text(
                   ('Sign Up'),
                   style: TextStyle(
@@ -282,9 +282,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: _image == null
-                        ? Center(child: Text('No image selected.'))
-                        : ClipOval(
+                    child: _image == null ? Center(child: Icon(Icons.add_a_photo))  : ClipOval(
                       child: Image.file(
                         _image!,
                         fit: BoxFit.cover,

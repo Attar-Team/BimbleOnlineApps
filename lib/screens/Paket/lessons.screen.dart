@@ -125,7 +125,7 @@ class _LessonsScreenState extends State<LessonsScreen> {
 
                   if (item.jenis == 'exam') {
                     card = TryoutCard(
-                      nomer: "",
+                      nomer: "${index + 1}",
                       judul: item.name,
                       waktu: "",
                     );
@@ -133,14 +133,14 @@ class _LessonsScreenState extends State<LessonsScreen> {
                     switch (item.typeCourse) {
                       case 'videos':
                         card = TryoutCard(
-                          nomer: "",
+                          nomer: "${index + 1}",
                           judul: item.name,
                           waktu: "",
                         );
                         break;
                       case 'file pdf':
-                        card = SoalCard(
-                          nomer: "",
+                        card = TryoutCard(
+                          nomer: "${index + 1}",
                           judul: item.name,
                           waktu: "",
                         );

@@ -5,7 +5,8 @@ class HistoriPembelianPaketCard extends StatelessWidget {
   final String imageURL;
   final String harga;
   final String deskripsiPaket;
-  const HistoriPembelianPaketCard({super.key, required this.imageURL, required this.harga, required this.deskripsiPaket});
+  final String judul;
+  const HistoriPembelianPaketCard({super.key, required this.imageURL, required this.harga, required this.deskripsiPaket, required this.judul});
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +57,9 @@ class HistoriPembelianPaketCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Judul",
-                      style: TextStyle(
+                    Text(
+                      judul,
+                      style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,
                           fontWeight: FontWeight.bold,

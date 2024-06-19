@@ -93,7 +93,7 @@ class PaketkuCard extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.all(5),
                     child: Text(
-                      'Progress : $progress',
+                      'Progress : 30%',
                       style: 
                         textStyle.copyWith(color: firstColor, fontSize: 12),),
                   ),

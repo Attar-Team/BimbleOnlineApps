@@ -89,18 +89,24 @@ class ActiveOrdersCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    judul,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff2E3D64),
-                    ),
-                  ),
-                  const SizedBox(
+              ConstrainedBox(
+              constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.6, // Atur lebar sesuai kebutuhan
+              ),
+      child: Text(
+        judul,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Color(0xff2E3D64),
+        ),
+      ),
+    ),
+
+    const SizedBox(
                     height: 5,
                   ),
                   Text(

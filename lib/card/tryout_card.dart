@@ -38,14 +38,18 @@ class TryoutCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const CircleAvatar(
+             CircleAvatar(
                 backgroundColor: Color(0xffD2E5FF),
                 radius: 20,
-                child: Icon(
-                  Icons.play_arrow,
-                  size: 20,
-                  color: Colors.indigo,
-                ),
+                child: Text(
+                  nomer,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xff2E3D64),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                )
               ),
               SizedBox(width: 10),
               Column(

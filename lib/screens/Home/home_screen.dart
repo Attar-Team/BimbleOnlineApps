@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       HomePageScreen(),
       PaketScreen(),
       PembelianPageScreen(),
-      AkunPageScreen(),
+      AkunPageScreen(name: widget.user.name, imageURL: widget.user.image,),
     ];
 
     return SafeArea(

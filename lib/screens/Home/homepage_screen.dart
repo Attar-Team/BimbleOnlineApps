@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 
 import '../../data/paket.dart';
 import '../../data/response/paket_response.dart';
+import '../../data/ujian.dart';
 
 class HomePageScreen extends StatefulWidget {
 
@@ -142,7 +143,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 30,),
-                              Text(
+                              const Text(
                                 'Hi, Rahmat',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
@@ -154,7 +155,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               const SizedBox(
                                 height: 5,
                               ),
-                              Text(
+                              const Text(
                                 'Mulai belajar dan berlangganan untuk kesuksesanmu',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',

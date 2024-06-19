@@ -11,6 +11,8 @@ import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../../data/ujian.dart';
+
 class CourseScreen extends StatefulWidget {
   const CourseScreen({super.key});
 

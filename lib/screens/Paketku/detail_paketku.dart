@@ -99,7 +99,7 @@ class _DetailPaketkuState extends State<DetailPaketku> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => VideoPembelajaran(videoId: widget.dataPaket.exam[index].url.toString(),)));
+                                builder: (context) => VideoPembelajaran(videoId: widget.dataPaket.exam[index].url.toString(), judul: widget.dataPaket.exam[index].name.toString(),),));
                           } else if (widget.dataPaket.exam[index].typeCourse == 'file pdf'){
                             Navigator.push(
                               context, 

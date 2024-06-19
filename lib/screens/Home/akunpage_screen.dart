@@ -15,7 +15,9 @@ import 'package:flutter/widgets.dart';
 import '../Auth/login_screen.dart';
 
 class AkunPageScreen extends StatefulWidget {
-  const AkunPageScreen({super.key});
+  final String name;
+  final String imageURL;
+  const AkunPageScreen({super.key, required this.name, required this.imageURL});
 
   @override
   State<AkunPageScreen> createState() => _AkunPageScreenState();
@@ -125,16 +127,27 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                         offset: Offset(0, 3),
                       )
                     ]),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircleAvatar(
                           radius: 40,
-                          backgroundImage: AssetImage('images/asyam.jpg'),
+                          child: Image.network(
+                            "https://bimbel.adzazarif.my.id/storage/${widget.imageURL}",
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey,
+                                child: Center(
+                                  child: Text(error.toString(), style: TextStyle(fontSize: 8),),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                         SizedBox(height: 15,),
                         Text(
-                          'Rahmat Kopling',
+                          widget.name,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 17,
@@ -155,20 +168,6 @@ class _AkunPageScreenState extends State<AkunPageScreen> {
                       ],
                     ),
               ),
-              SizedBox(height: 20,),
-              Container(
-                margin: EdgeInsets.only(left: 20),
-                child: Text(
-                  'Saved Courses',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700
-                  ),
-                ),
-              ),
-              SizedBox(height: 20,),
               Container(
                   margin: EdgeInsets.only(left: 20),
                   child: SingleChildScrollView(

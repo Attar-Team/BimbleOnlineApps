@@ -5,7 +5,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPembelajaran extends StatefulWidget {
   final String videoId;
-  const VideoPembelajaran({super.key, required this.videoId});
+  final String judul;
+  const VideoPembelajaran({super.key, required this.videoId, required this.judul});
 
   @override
   State<VideoPembelajaran> createState() => _VideoPembelajaranState();
@@ -121,8 +122,8 @@ class _VideoPembelajaranState extends State<VideoPembelajaran> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Yang Perlu Disiapkan',
+                    Text(
+                      widget.judul,
                       style: TextStyle(
                           fontFamily: 'Urbanist',
                           fontSize: 19,
@@ -159,7 +160,7 @@ class _VideoPembelajaranState extends State<VideoPembelajaran> {
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: LessonsCard(
                               nomer: products[index].nomer,
-                              judul: products[index].judul,
+                              judul: widget.judul,
                               waktu: products[index].waktu,
                             ),
                           );

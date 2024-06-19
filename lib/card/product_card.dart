@@ -104,7 +104,7 @@ class ProductCard extends StatelessWidget {
                         children: [
                           Text(
                             'Rp${price - discount!}',
-                            style: textStyle.copyWith(color: firstColor),
+                            style: textStyle.copyWith(color: firstColor, fontSize: 15),
                           ),
                           SizedBox(width: 5),
                           Text(

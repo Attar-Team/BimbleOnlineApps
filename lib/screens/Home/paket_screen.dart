@@ -1,18 +1,15 @@
 import 'dart:convert';
-
-import 'package:bumn_muda/data/paket.dart';
-import 'package:bumn_muda/screens/Paketku/detail_paketku.dart';
 import 'package:flutter/material.dart';
-import 'package:bumn_muda/card/paketku_card.dart';
-import 'package:bumn_muda/card/paketku.dart';
 import 'package:flutter/scheduler.dart';
-import '../../data/paket_terbeli.dart';
+import '../../card/paketku_card.dart';
 import 'package:lottie/lottie.dart';
-import '';
 import 'package:http/http.dart' as http;
-import '../../data/response/histori_pemesanan_response.dart';
+import '../../data/paket.dart';
+import '../../data/paket_terbeli.dart';
 import '../../data/response/paket_response.dart';
 import '../../data/response/paket_terbeli_response.dart';
+import '../../data/ujian.dart';
+import '../Paketku/detail_paketku.dart';
 
 class PaketScreen extends StatefulWidget {
   const PaketScreen({Key? key}) : super(key: key);
@@ -23,8 +20,8 @@ class PaketScreen extends StatefulWidget {
 
 class _PaketScreenState extends State<PaketScreen> {
 
-  List<PaketTerbeli> paketTerbeli = [];
-  List<Package> paket = [];
+  List<PaketTerbeli> packagesTerbeli = [];
+  List<Package> packages = [];
 
   @override
   void initState() {
@@ -37,13 +34,13 @@ class _PaketScreenState extends State<PaketScreen> {
   Future<void> fetchAllData() async {
     showAboutDialog(context: context);
     try {
-      final paketResponse = await fetchPackages();
-      final paketTerbeliResponse = await fetchPaketTerbeli();
+      final packagesResponse = await fetchPackages();
+      final packagesTerbeliResponse = await fetchPaketTerbeli();
       setState(() {
-        paket = paketResponse.data;
-        paketTerbeli = paketTerbeliResponse.data;
-        print("Paket Terbeli : ${paketTerbeli.length}");
-        print("Paket : ${paket.length}");
+        packages = packagesResponse.data;
+        packagesTerbeli = packagesTerbeliResponse.data;
+        print("Paket Terbeli : ${packagesTerbeli.length}");
+        print("Paket : ${packages.length}");
       });
     } catch (e) {
       print('Failed to fetch data: $e');
@@ -69,7 +66,7 @@ class _PaketScreenState extends State<PaketScreen> {
     if (response.statusCode == 200) {
       return PaketTerbeliResponse.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load paket terbeli: ${response.body}');
+      throw Exception('Failed to load packages terbeli: ${response.body}');
     }
   }
 
@@ -125,7 +122,7 @@ class _PaketScreenState extends State<PaketScreen> {
                           color: Colors.black),
                     ),
                     Text(
-                      'Berikut paket - paket course atau try out yang telah kamu beli ...',
+                      'Berikut packages - packages course atau try out yang telah kamu beli ...',
                       style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,
@@ -141,9 +138,9 @@ class _PaketScreenState extends State<PaketScreen> {
                 height: 570, // Atur tinggi sesuai kebutuhan Anda
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: (paketTerbeli.length / 2).ceil(),
+                  itemCount: (packagesTerbeli.length / 2).ceil(),
                   itemBuilder: (context, index) {
-                    if ((index * 2) >= paketTerbeli.length) {
+                    if ((index * 2) >= packagesTerbeli.length) {
                       return Container(); // Atau widget lain untuk menangani kesalahan
                     }
                     return Row(
@@ -156,24 +153,24 @@ class _PaketScreenState extends State<PaketScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => DetailPaketku(productName: paket
-                                        .where((paket) => paket.id.toString() == paketTerbeli[index * 2].packageId)
+                                    builder: (context) => DetailPaketku(productName: packages
+                                        .where((packages) => packages.id.toString() == packagesTerbeli[index * 2].packageId)
                                         .first
-                                        .name, dataPaket : paket.where((paket) => paket.id.toString() == paketTerbeli[index * 2].packageId).first),
+                                        .name, dataPaket : packages.where((packages) => packages.id.toString() == packagesTerbeli[index * 2].packageId).first),
                                   ),
                                 );
                               },
                               child: PaketkuCard(
-                                imageURL: paket
-                                    .where((paket) => paket.id.toString() == paketTerbeli[index * 2].packageId)
+                                imageURL: packages
+                                    .where((packages) => packages.id.toString() == packagesTerbeli[index * 2].packageId)
                                     .first
                                     .photo,
-                                name: paket
-                                    .where((paket) => paket.id.toString() == paketTerbeli[index * 2].packageId)
+                                name: packages
+                                    .where((packages) => packages.id.toString() == packagesTerbeli[index * 2].packageId)
                                     .first
                                     .name,
-                                description: paket
-                                    .where((paket) => paket.id.toString() == paketTerbeli[index * 2].packageId)
+                                description: packages
+                                    .where((packages) => packages.id.toString() == packagesTerbeli[index * 2].packageId)
                                     .first
                                     .description,
                                 progress: "",
@@ -181,7 +178,7 @@ class _PaketScreenState extends State<PaketScreen> {
                             ),
                           ),
                         ),
-                        if ((index * 2 + 1) < paketTerbeli.length)
+                        if ((index * 2 + 1) < packagesTerbeli.length)
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -190,24 +187,24 @@ class _PaketScreenState extends State<PaketScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => DetailPaketku(productName: paket
-                                          .where((paket) => paket.id.toString() == paketTerbeli[index * 2 + 1].packageId)
+                                      builder: (context) => DetailPaketku(productName: packages
+                                          .where((packages) => packages.id.toString() == packagesTerbeli[index * 2 + 1].packageId)
                                           .first
-                                          .name, dataPaket: paket.where((paket) => paket.id.toString() == paketTerbeli[index * 2 + 1].packageId).first),
+                                          .name, dataPaket: packages.where((packages) => packages.id.toString() == packagesTerbeli[index * 2 + 1].packageId).first),
                                     ),
                                   );
                                 },
                                 child: PaketkuCard(
-                                  imageURL: paket
-                                      .where((paket) => paket.id.toString() == paketTerbeli[index * 2 + 1].packageId)
+                                  imageURL: packages
+                                      .where((packages) => packages.id.toString() == packagesTerbeli[index * 2 + 1].packageId)
                                       .first
                                       .photo,
-                                  name: paket
-                                      .where((paket) => paket.id.toString() == paketTerbeli[index * 2 + 1].packageId)
+                                  name: packages
+                                      .where((packages) => packages.id.toString() == packagesTerbeli[index * 2 + 1].packageId)
                                       .first
                                       .name,
-                                  description: paket
-                                      .where((paket) => paket.id.toString() == paketTerbeli[index * 2 + 1].packageId)
+                                  description: packages
+                                      .where((packages) => packages.id.toString() == packagesTerbeli[index * 2 + 1].packageId)
                                       .first
                                       .description,
                                   progress: "",
